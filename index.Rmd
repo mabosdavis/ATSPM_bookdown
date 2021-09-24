@@ -1,8 +1,8 @@
 ---
-title: "Article Long Title"
+title: "ATSPM Data Analysis"
 author:
-  - name: Gregory Macfarlane
-    email: gregmacfarlane@byu.edu
+  - name: Matthew Davis
+    email: mabosdavis@gmail.com
     affiliation: Brigham Young University
     footnote: 1
   - name: Cosmo Cougar
@@ -39,7 +39,7 @@ keywords:
   - Location Choice
 ---
 
-# Introduction {#intro}
+# Questions {#intro}
 
 
 This repository serves as a template both in how to write a report, and how
