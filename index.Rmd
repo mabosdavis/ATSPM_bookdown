@@ -42,27 +42,9 @@ keywords:
 # Questions {#intro}
 
 
-This repository serves as a template both in how to write a report, and how
-to do so in RStudio and Bookdown. The parent repository is available as a free
-template at [https://github.com/byu-transpolab/template_bookdown](https://github.com/byu-transpolab/template_bookdown).
+Since December 2019, the effects of COVID-19 have been felt across the world. Masks, social distancing, and stay-at-home orders all changed the way that we lived, worked, and interacted as a society. With these safety precautions came less traveling and driving on our roads and highways. Recent research has shown that the COVID-19 pandemic led to a decrease in traffic volumes not just in the United States, but across the globe [@Lee2020; @Lee2021; @Muley2021]. 
 
-The advice in this document comes from numerous sources. Some of it is my own, some
-has been shared by others. Particular note belongs to:
+While studies have been done on the effect of COVID-19 on traffic volumes, there has not been any insight into the effect on traffic related performance measures, namely from Automated Traffic Signal Performance Measures (ATSPM) systems. The Utah Department of Transportation's ATSPM system is supplied by data collectors at intersections across the state, which then provide raw data that is converted to performance measures such as Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on Red, and Approach Speed. While traffic volumes may have decreased, did other aspects of traffic captured through these performance measures improve? The research questions therefore are:
 
-  - Laurie Garrow
-  - Lisa Rosenstein
-  - Kara Kockelman
-  
-The introduction of your report is not simply an "introduction", but rather a 
-**motivation** of why your project matters. What is the cost of not solving 
-this problem? What have been previous attempts to solve this problem? The *why*
-is more important than the *what*. Why is this article worthy of archiving?
-
-A three or four-paragraph structure can work well here.
-
-  1. Identify the problem and why it matters.
-  2. A high-level overview of some previous attempts to solve it, and why those 
-  attempts were limited (this might be two paragraphs).
-  2. Describe the approach (very briefly), and provide an overview of what is 
-  to come. "In this paper we present ..."
-  
+  - What was the effect of COVID-19 on ATSPM performance measures?
+  - What were the contributing effects from other factors, such as season, time of day, and weather?
