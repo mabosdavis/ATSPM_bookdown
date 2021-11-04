@@ -1,11 +1,9 @@
 
 # Install tidyverse if needed
 if (!require("tidyverse")) install.packages("tidyverse")
-if (!require("lubridate")) install.packages("lubridate")
 
 # Load tidyverse library
 library(tidyverse)
-library(lubridate)
 
 # Read in PCD csv
 PCD <- read_csv("data/PCD.csv") %>%
@@ -23,8 +21,15 @@ YR <- read_csv("data/YellowRedActivations.csv") %>%
   select(-IsProtectedPhase, -SevereRedLightViolations, -YellowActivations,
        -ViolationTime, -ApproachId, -Cycles)
 
-# Read in BinStartTime csv
-BinStartTime <- read_csv("data/BinStartTimes_2020.csv", col_names = "DateTime")
+## Read in BinStartTime csv
+#BinStartTime <- read_csv("data/BinStartTimes_2020.csv", col_names = "DateTime") %>%
+#  as_datetime()
+# Had an issue with coercing it to be a dttm
+
+# Create a BinStartTime from the PCD dataset
+PCDBinStartTime <- PCD %>%
+  select(BinStartTime)
+PCDBinStartTime <- unique(PCDBinStartTime)
 
 # Read in Signal ID csv  
 SignalId <- read_csv("data/SignalId.csv")
@@ -34,12 +39,12 @@ PhaseNumber <- tibble(PhaseNumber = c(2,6))
 
 base_tibble <-
     expand_grid(
-      BinStartTime,
+      PCDBinStartTime,
       SignalId,
       PhaseNumber
     )
 all_tibble <-
   base_tibble %>%
-  left_join(PCD, by = c("BinStartTime", "SignalId", "PhaseNumber")) %>%
-  left_join(SF, by = c("BinStartTime", "SignalId", "PhaseNumber")) %>%
-  left_join(YR, by = c("BinStartTime", "SignalId", "PhaseNumber"))
+  left_join(PCD, by = c('BinStartTime', 'SignalId', 'PhaseNumber')) %>%
+  left_join(SF, by = c('BinStartTime', 'SignalId', 'PhaseNumber')) %>%
+  left_join(YR, by = c('BinStartTime', 'SignalId', 'PhaseNumber'))
