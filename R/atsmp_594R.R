@@ -1,9 +1,11 @@
 
 # Install tidyverse if needed
 if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("lubridate")) install.packages("lubridate")
 
 # Load tidyverse library
 library(tidyverse)
+library(lubridate)
 
 # Read in PCD csv
 PCD <- read_csv("data/PCD.csv") %>%
@@ -22,7 +24,7 @@ YR <- read_csv("data/YellowRedActivations.csv") %>%
        -ViolationTime, -ApproachId, -Cycles)
 
 # Read in BinStartTime csv
-BinStartTime <- read_csv("data/BinStartTimes_2020.csv")
+BinStartTime <- read_csv("data/BinStartTimes_2020.csv", col_names = "DateTime")
 
 # Read in Signal ID csv  
 SignalId <- read_csv("data/SignalId.csv")
@@ -36,3 +38,8 @@ base_tibble <-
       SignalId,
       PhaseNumber
     )
+all_tibble <-
+  base_tibble %>%
+  left_join(PCD, by = c("BinStartTime", "SignalId", "PhaseNumber")) %>%
+  left_join(SF, by = c("BinStartTime", "SignalId", "PhaseNumber")) %>%
+  left_join(YR, by = c("BinStartTime", "SignalId", "PhaseNumber"))
