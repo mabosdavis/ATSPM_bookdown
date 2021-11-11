@@ -25,5 +25,23 @@ library(tidyverse)
 
 # Read Volume file in
 Volume <- read_rds("data/Volume.rds")
+
+# Build the Pre-Covid df
 Vol_PC <- filter(Volume, BinStartTime < "2020-01-01")
+
+#Graph Signal Specific Volumes
+Volume%>%
+  filter(
+    timeperiod == "AMPeak",
+    SignalId == 6303,
+    PhaseNumber ==2,
+    BinStartTime) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = BinStartTime, y = Volume, color = PhaseNumber))
+
+# Build the Covid df
 Vol_C <- filter(Volume, BinStartTime >= "2020-01-01")
+
+
+ggplot(data = Vol_PC) +
+  geom_point(mapping = aes(x = BinStartTime, y = Volume))
