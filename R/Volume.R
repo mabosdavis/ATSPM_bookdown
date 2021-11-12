@@ -39,17 +39,30 @@ Volume <- read_rds("data/Volume.rds")
 Vol_PC <- filter(Volume, BinStartTime < "2020-03-12")
 
 #Graph Signal Specific Volumes
-Volume%>%
+Vol_PC%>%
   filter(
-    timeperiod == "AMPeak",
-    SignalId == 6303,
-    PhaseNumber ==2,
-    BinStartTime) %>%
-  ggplot() +
-  geom_point(mapping = aes(x = BinStartTime, y = Volume, color = PhaseNumber))
+    timeperiod == "PMPeak",
+    SignalId == 6304,
+    PhaseNumber ==2,) %>%
+  ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
+  geom_point() +
+  geom_smooth() +
+  geom_smooth(method = 'lm')
+
 
 # Build the Covid df
 Vol_C <- filter(Volume, BinStartTime >= "2020-03-12")
+
+#Graph Signal Specific Volumes
+Vol_C%>%
+  filter(
+    timeperiod == "PMPeak",
+    SignalId == 6304,
+    PhaseNumber ==2,) %>%
+  ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
+  geom_point() +
+  geom_smooth() +
+  geom_smooth(method = 'lm')
 
 
 ggplot(data = Vol_PC) +
