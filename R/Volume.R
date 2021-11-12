@@ -1,22 +1,31 @@
 # Create Volume df
 library(tidyverse)
 library(lubridate)
+library(data.table)
 
 Volume_pre<- read_csv("data/TrafficVolume.csv")
 
-a <- Volume_pre %>% mutate(hour = lubridate::hour(BinStartTime))
+vol <- Volume_pre %>%
+  select(-Movement, -LaneNumber) %>% data.table()
+
+b <- vol[, lapply(.SD, sum), by=list(BinStartTime, SignalId, ApproachId, PhaseNumber)] %>%
+  as_tibble()
 
 # Write Peak identifier    
-b <- a %>% mutate(timeperiod = case_when(
-      hour >= 7 & hour < 9 ~ "AMPeak",
-      hour >= 12 & hour < 14 ~ "MidDay",
-      hour >= 16 & hour < 18 ~ "PMPeak",
-      TRUE ~ "OffPeak"))
-
-c <- b %>% filter(PhaseNumber%in% c(2,6), timeperiod %in% c("AMPeak", "PMPeak"))
+c <- b %>% mutate(Volume_hour = Volume*4,
+                  hour = lubridate::hour(BinStartTime),
+                  timeperiod = case_when(
+                    hour >= 7 & hour <= 9 ~ "AMPeak",
+                    hour >= 12 & hour <= 14 ~ "MidDay",
+                    hour >= 16 & hour <= 18 ~ "PMPeak",
+                    TRUE ~ "OffPeak"))
+d <- c %>% 
+  filter(PhaseNumber%in% c(2,6), 
+         timeperiod %in% c("AMPeak", "PMPeak"),
+         BinStartTime >= "2017-11-12")
 
 # Write rds file
-write_rds(c, "data/Volume.rds")
+write_rds(d, "data/Volume.rds")
 
 
 
