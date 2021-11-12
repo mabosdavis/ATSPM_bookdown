@@ -67,3 +67,24 @@ Vol_C%>%
 
 ggplot(data = Vol_PC) +
   geom_point(mapping = aes(x = BinStartTime, y = Volume))
+
+#Testing
+Volume_year <- Volume %>% mutate(Time = lubridate::md_hms
+                                 
+                                 #year = lubridate::year(BinStartTime),
+                                 # month = lubridate::month(BinStartTime),
+                                 # day = lubridate::day(BinStartTime),
+                                 # hour = lubridate::hour(BinStartTime),
+                                 # minute = lubridate::minute(BinStartTime)
+                                 # Time = )
+                                 
+                                 Volume_year%>%
+                                   filter(
+                                     timeperiod == "PMPeak",
+                                     SignalId == 6304,
+                                     PhaseNumber ==2,) %>%
+                                   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
+                                   geom_point() +
+                                   geom_smooth() +
+                                   geom_smooth(method = 'lm') +
+                                   facet_wrap(~year)
