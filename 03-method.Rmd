@@ -63,10 +63,7 @@ or the "AM Peak" and "PM Peak" respectively. Only these hours were used in the a
 
 
 ```{r load_data}
-data("Car", package = "mlogit")
-car_mlogit <- Car %>%
-  mutate(choice = gsub("choice", "", choice)) %>%
-  dfidx( varying = 5:70, shape = "wide", choice = "choice", sep = "")
+Volume <- read_rds("data/Volume.rds")
 ```
 
 Often there will be a table describing summary statistics of your dataset.
