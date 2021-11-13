@@ -71,12 +71,17 @@ Table \@ref(tab:datasummary) shows a nice table using the [`datasummary`](https:
 functions in the `modelsummary` package.
 
 ```{r datasummary}
-datasummary_balance(
-  ~type, 
-  data = car_mlogit %>% 
-    select(type, fuel, price, range, size), 
-  dinm = FALSE,
-  title = "Descriptive Statistics of Dataset"
-  )
+library(tidyverse)
+
+#Graph Signal Specific Volumes
+Volume%>%
+  filter(
+    timeperiod == "AMPeak",
+    SignalId == 6303,
+    PhaseNumber ==2) %>%
+  ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
+  geom_point() +
+  geom_smooth(color = 'red') +
+  geom_smooth(method = 'lm', color = 'black')
 ```
 
