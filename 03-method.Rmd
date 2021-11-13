@@ -80,7 +80,8 @@ Volume%>%
   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
   geom_point() +
   geom_smooth(color = 'red') +
-  geom_smooth(method = 'lm', color = 'black')
+  xlab("Time") +
+  ylab("Volume (vehicles per hour")
 ```
 
 Variation in traffic volumes is dependent on multiple factors such as season, 
