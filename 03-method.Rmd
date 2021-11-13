@@ -85,3 +85,8 @@ Volume%>%
   geom_smooth(method = 'lm', color = 'black')
 ```
 
+Variation in traffic volumes is dependent on multiple factors such as season, 
+time of day, day of the week, weather and road conditions, sporting events and 
+major holidays. We took into account season, time of day, day of the week, and 
+major holidays. Major holidays were identified to reduce outliers and only Tuesdays, 
+Wednesdays and Thursdays were included in the analysis.
