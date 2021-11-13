@@ -80,22 +80,3 @@ datasummary_balance(
   )
 ```
 
-## Models
-
-If your work is mostly a new model, you probably will have introduced some
-details in the literature review. But this is where you describe the
-mathematical construction of your model, the variables it uses, and other
-things. Some methods are so common (linear regression) that it is unnecessary to
-explore them in detail. But others will need to be described, often with
-mathematics.  For example, the probability of a multinomial logit model is
-
-\begin{equation}
-  P_i(X_{in}) = \frac{e^{X_{in}\beta_i}}{\sum_{j \in J}e^{X_{jn}\beta_j}}
-  (\#eq:mnl)
-\end{equation}
-
-Use [LaTeX mathematics](https://www.overleaf.com/learn/latex/mathematical_expressions). 
-You'll want to number display equations so that you can
-refer to them later in the manuscript. Other simpler math can be described inline,
-like saying that $i, j \in J$. Details on using equations in bookdown are available
-[here](https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html).
