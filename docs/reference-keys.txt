@@ -3,3 +3,5 @@ methods
 data
 models
 findings
+tab:datasummary
+eq:mnl

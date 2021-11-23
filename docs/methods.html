@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-09-24" />
+<meta name="date" content="2021-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -62,8 +62,6 @@ div.abstract{
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -149,11 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Questions</a></li>
-<li class="chapter" data-level="2" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>2</b> Methods</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="methods.html"><a href="methods.html#data"><i class="fa fa-check"></i><b>2.1</b> Data</a></li>
-<li class="chapter" data-level="2.2" data-path="methods.html"><a href="methods.html#models"><i class="fa fa-check"></i><b>2.2</b> Models</a></li>
-</ul></li>
+<li class="chapter" data-level="2" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>2</b> Methods</a></li>
 <li class="chapter" data-level="3" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>3</b> Findings</a></li>
 <li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
 <li class="divider"></li>
@@ -178,475 +172,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="methods" class="section level1" number="2">
 <h1><span class="header-section-number"> 2</span> Methods</h1>
-<p>In this chapter, you describe the approach you have taken on the problem. This
-usually involves a discussion about both the data you used and the models you
-applied.</p>
-<div id="data" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Data</h2>
-<p>Discuss where you got your data, how you cleaned it, any assumptions you made.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Car&quot;</span>, <span class="at">package =</span> <span class="st">&quot;mlogit&quot;</span>)</span>
-<span id="cb1-2"><a href="methods.html#cb1-2" aria-hidden="true" tabindex="-1"></a>car_mlogit <span class="ot">&lt;-</span> Car <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="methods.html#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">choice =</span> <span class="fu">gsub</span>(<span class="st">&quot;choice&quot;</span>, <span class="st">&quot;&quot;</span>, choice)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-4"><a href="methods.html#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfidx</span>( <span class="at">varying =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">70</span>, <span class="at">shape =</span> <span class="st">&quot;wide&quot;</span>, <span class="at">choice =</span> <span class="st">&quot;choice&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p>Often there will be a table describing summary statistics of your dataset.
-Table <a href="methods.html#tab:datasummary">2.1</a> shows a nice table using the <a href="https://vincentarelbundock.github.io/modelsummary/articles/datasummary.html"><code>datasummary</code></a>
-functions in the <code>modelsummary</code> package.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_balance</span>(</span>
-<span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>type, </span>
-<span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> car_mlogit <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="methods.html#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(type, fuel, price, range, size), </span>
-<span id="cb2-5"><a href="methods.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dinm =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-6"><a href="methods.html#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">&quot;Descriptive Statistics of Dataset&quot;</span></span>
-<span id="cb2-7"><a href="methods.html#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:datasummary">Table 2.1: </span>Descriptive Statistics of Dataset
-</caption>
-<thead>
-<tr>
-<th style="empty-cells: hide;border-bottom:hidden;" colspan="2">
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-regcar (N=10930)
-</div>
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-sportuv (N=1048)
-</div>
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-sportcar (N=880)
-</div>
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-stwagon (N=4446)
-</div>
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-truck (N=5628)
-</div>
-</th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2">
-<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
-van (N=4992)
-</div>
-</th>
-</tr>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-<th style="text-align:right;">
-Mean
-</th>
-<th style="text-align:right;">
-Std. Dev.
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-price
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.9
-</td>
-<td style="text-align:right;">
-4.7
-</td>
-<td style="text-align:right;">
-1.9
-</td>
-<td style="text-align:right;">
-4.8
-</td>
-<td style="text-align:right;">
-2.2
-</td>
-<td style="text-align:right;">
-4.1
-</td>
-<td style="text-align:right;">
-1.9
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-2.0
-</td>
-<td style="text-align:right;">
-4.2
-</td>
-<td style="text-align:right;">
-1.9
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-range
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:right;">
-237.2
-</td>
-<td style="text-align:right;">
-94.5
-</td>
-<td style="text-align:right;">
-241.6
-</td>
-<td style="text-align:right;">
-94.7
-</td>
-<td style="text-align:right;">
-233.6
-</td>
-<td style="text-align:right;">
-96.7
-</td>
-<td style="text-align:right;">
-238.7
-</td>
-<td style="text-align:right;">
-94.3
-</td>
-<td style="text-align:right;">
-238.2
-</td>
-<td style="text-align:right;">
-93.1
-</td>
-<td style="text-align:right;">
-236.8
-</td>
-<td style="text-align:right;">
-94.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-size
-</td>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-2.4
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-0.8
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-2.1
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-1.0
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-1.4
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-1.0
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-2.3
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-0.8
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-2.4
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-0.8
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-2.5
-</td>
-<td style="text-align:right;box-shadow: 0px 1px">
-0.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-<td style="text-align:right;">
-N
-</td>
-<td style="text-align:right;">
-Pct.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-fuel
-</td>
-<td style="text-align:left;">
-gasoline
-</td>
-<td style="text-align:right;">
-2704
-</td>
-<td style="text-align:right;">
-24.7
-</td>
-<td style="text-align:right;">
-280
-</td>
-<td style="text-align:right;">
-26.7
-</td>
-<td style="text-align:right;">
-218
-</td>
-<td style="text-align:right;">
-24.8
-</td>
-<td style="text-align:right;">
-1096
-</td>
-<td style="text-align:right;">
-24.7
-</td>
-<td style="text-align:right;">
-1413
-</td>
-<td style="text-align:right;">
-25.1
-</td>
-<td style="text-align:right;">
-1247
-</td>
-<td style="text-align:right;">
-25.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-methanol
-</td>
-<td style="text-align:right;">
-2729
-</td>
-<td style="text-align:right;">
-25.0
-</td>
-<td style="text-align:right;">
-246
-</td>
-<td style="text-align:right;">
-23.5
-</td>
-<td style="text-align:right;">
-225
-</td>
-<td style="text-align:right;">
-25.6
-</td>
-<td style="text-align:right;">
-1091
-</td>
-<td style="text-align:right;">
-24.5
-</td>
-<td style="text-align:right;">
-1445
-</td>
-<td style="text-align:right;">
-25.7
-</td>
-<td style="text-align:right;">
-1216
-</td>
-<td style="text-align:right;">
-24.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-cng
-</td>
-<td style="text-align:right;">
-2767
-</td>
-<td style="text-align:right;">
-25.3
-</td>
-<td style="text-align:right;">
-260
-</td>
-<td style="text-align:right;">
-24.8
-</td>
-<td style="text-align:right;">
-238
-</td>
-<td style="text-align:right;">
-27.0
-</td>
-<td style="text-align:right;">
-1109
-</td>
-<td style="text-align:right;">
-24.9
-</td>
-<td style="text-align:right;">
-1360
-</td>
-<td style="text-align:right;">
-24.2
-</td>
-<td style="text-align:right;">
-1282
-</td>
-<td style="text-align:right;">
-25.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-electric
-</td>
-<td style="text-align:right;">
-2730
-</td>
-<td style="text-align:right;">
-25.0
-</td>
-<td style="text-align:right;">
-262
-</td>
-<td style="text-align:right;">
-25.0
-</td>
-<td style="text-align:right;">
-199
-</td>
-<td style="text-align:right;">
-22.6
-</td>
-<td style="text-align:right;">
-1150
-</td>
-<td style="text-align:right;">
-25.9
-</td>
-<td style="text-align:right;">
-1410
-</td>
-<td style="text-align:right;">
-25.1
-</td>
-<td style="text-align:right;">
-1247
-</td>
-<td style="text-align:right;">
-25.0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="models" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Models</h2>
-<p>If your work is mostly a new model, you probably will have introduced some
-details in the literature review. But this is where you describe the
-mathematical construction of your model, the variables it uses, and other
-things. Some methods are so common (linear regression) that it is unnecessary to
-explore them in detail. But others will need to be described, often with
-mathematics. For example, the probability of a multinomial logit model is</p>
-<p><span class="math display" id="eq:mnl">\[\begin{equation}
-  P_i(X_{in}) = \frac{e^{X_{in}\beta_i}}{\sum_{j \in J}e^{X_{jn}\beta_j}}
-  \tag{2.1}
-\end{equation}\]</span></p>
-<p>Use <a href="https://www.overleaf.com/learn/latex/mathematical_expressions">LaTeX mathematics</a>.
-You’ll want to number display equations so that you can
-refer to them later in the manuscript. Other simpler math can be described inline,
-like saying that <span class="math inline">\(i, j \in J\)</span>. Details on using equations in bookdown are available
-<a href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html">here</a>.</p>
+<p>UDOT provided ATSPM data for downtown Provo, Orem State Street, University Avenue,
+Orem 800 N, and Fort Union Boulevard in Cottonwood Heights during the years
+2017-2020. It included various performance measure related data, such as Volume,
+Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on
+Red, and Approach Speed.To simplify the analysis, we only focused on Volume.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume.rds&quot;</span>)</span></code></pre></div>
+<p>Signal and peak hour specific linear models were calculated and compared from
+pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the
+drastic drop of volumes on March 12, 2020, this date was chosen as
+the threshold to start the “during COVID” dataset.The UDOT ATSPM data was available
+through December 31, 2020, so the period of March 12 to December 31 of each year
+was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic.
+The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM,
+or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph Signal Specific Volumes</span></span>
+<span id="cb2-4"><a href="methods.html#cb2-4" aria-hidden="true" tabindex="-1"></a>Volume<span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="methods.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb2-6"><a href="methods.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    timeperiod <span class="sc">==</span> <span class="st">&quot;AMPeak&quot;</span>,</span>
+<span id="cb2-7"><a href="methods.html#cb2-7" aria-hidden="true" tabindex="-1"></a>    SignalId <span class="sc">==</span> <span class="dv">6303</span>,</span>
+<span id="cb2-8"><a href="methods.html#cb2-8" aria-hidden="true" tabindex="-1"></a>    PhaseNumber <span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-9"><a href="methods.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> BinStartTime, <span class="at">y =</span> Volume_hour, <span class="at">color =</span> hour)) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="methods.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-11"><a href="methods.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="methods.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="ATSPM_data_analysis_files/figure-html/datasummary-1.png" width="672" /></p>
+<p>Variation in traffic volumes is dependent on multiple factors such as season,
+time of day, day of the week, weather and road conditions, sporting events and
+major holidays. We took into account season, time of day, day of the week, and
+major holidays. Major holidays were identified to reduce outliers and only Tuesdays,
+Wednesdays and Thursdays were included in the analysis.</p>
 
-</div>
 </div>
             </section>
 
@@ -708,20 +268,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
