@@ -106,6 +106,8 @@ Vol_C%>%
                   BinStartTime >= "2020-02-11",
                   BinStartTime < "2020-03-12")
   mean_vol1 <- mean(Vol_1$Volume_hour)
+  sd_vol1 <- sd(Vol_1$Volume_hour)
+  sample_size1 <- nrow(Vol_1)
   
   Vol_2 <- filter(Volume,
                   timeperiod == "PMPeak",
@@ -113,7 +115,9 @@ Vol_C%>%
                   PhaseNumber ==2,
                   BinStartTime >= "2020-03-12",
                   BinStartTime < "2020-04-12")
-  mean_vol2 <- mean(Vol_2$Volume_hour)  
+  mean_vol2 <- mean(Vol_2$Volume_hour)
+  sd_vol2 <- sd(Vol_2$Volume_hour)
+  sample_size2 <- nrow(Vol_2)
   
   Vol_3 <- filter(Volume,
                   timeperiod == "PMPeak",
@@ -121,7 +125,9 @@ Vol_C%>%
                   PhaseNumber ==2,
                   BinStartTime >= "2020-10-13",
                   BinStartTime < "2020-11-13")
-  mean_vol3 <- mean(Vol_3$Volume_hour) 
+  mean_vol3 <- mean(Vol_3$Volume_hour)
+  sd_vol3 <- sd(Vol_3$Volume_hour)
+  sample_size3 <- nrow(Vol_3)
 
 
 #Pick two dates during covid, like when the shutdown happened and sometime after that and find the mean volume in there
