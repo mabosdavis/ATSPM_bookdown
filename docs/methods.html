@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-12" />
+<meta name="date" content="2021-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -177,7 +177,6 @@ Orem 800 N, and Fort Union Boulevard in Cottonwood Heights during the years
 2017-2020. It included various performance measure related data, such as Volume,
 Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on
 Red, and Approach Speed.To simplify the analysis, we only focused on Volume.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume.rds&quot;</span>)</span></code></pre></div>
 <p>Signal and peak hour specific linear models were calculated and compared from
 pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the
 drastic drop of volumes on March 12, 2020, this date was chosen as
@@ -186,6 +185,10 @@ through December 31, 2020, so the period of March 12 to December 31 of each year
 was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic.
 The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM,
 or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume.rds&quot;</span>)</span></code></pre></div>
+<p>Often there will be a table describing summary statistics of your dataset.
+Table <a href="#tab:datasummary"><strong>??</strong></a> shows a nice table using the <a href="https://vincentarelbundock.github.io/modelsummary/articles/datasummary.html"><code>datasummary</code></a>
+functions in the <code>modelsummary</code> package.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph Signal Specific Volumes</span></span>
@@ -197,9 +200,9 @@ or the “AM Peak” and “PM Peak” respectively. Only these hours were used 
 <span id="cb2-9"><a href="methods.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> BinStartTime, <span class="at">y =</span> Volume_hour, <span class="at">color =</span> hour)) <span class="sc">+</span></span>
 <span id="cb2-10"><a href="methods.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb2-11"><a href="methods.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">+</span></span>
-<span id="cb2-12"><a href="methods.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">color =</span> <span class="st">&#39;black&#39;</span>)</span></code></pre></div>
+<span id="cb2-12"><a href="methods.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Time&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-13"><a href="methods.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Volume (vehicles per hour&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="ATSPM_data_analysis_files/figure-html/datasummary-1.png" width="672" /></p>
 <p>Variation in traffic volumes is dependent on multiple factors such as season,
 time of day, day of the week, weather and road conditions, sporting events and
