@@ -46,10 +46,6 @@ UDOT provided ATSPM data for downtown Provo, Orem State Street, University Avenu
  Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on 
  Red, and Approach Speed.To simplify the analysis, we only focused on Volume.
 
-```{r load_data}
-Volume <- read_rds("data/Volume.rds")
-```
-
 Signal and peak hour specific linear models were calculated and compared from
 pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the 
 drastic drop of volumes on March 12, 2020, this date was chosen as 
