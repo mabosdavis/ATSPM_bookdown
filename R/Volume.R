@@ -19,6 +19,7 @@ c <- b %>% mutate(Volume_hour = Volume*4,
                     hour >= 12 & hour <= 14 ~ "MidDay",
                     hour >= 16 & hour <= 18 ~ "PMPeak",
                     TRUE ~ "OffPeak"))
+# Filter by Phase Number, only AM and PM Peaks, and after November 12/2017
 d <- c %>% 
   filter(PhaseNumber%in% c(2,6), 
          timeperiod %in% c("AMPeak", "PMPeak"),
@@ -26,6 +27,8 @@ d <- c %>%
 
 # Write rds file
 write_rds(d, "data/Volume.rds")
+
+
 
 
 
@@ -53,10 +56,36 @@ Signals_Unique <- left_join(Signal_List, Signals_Unique, by = 'SignalId')
 Volume <- left_join(Volume, Signals_Unique, by = 'SignalId')
 
 
+# Extract day from date
+Volume <- mutate(Volume, day = lubridate::wday(BinStartTime))
+
+# Filter just Tuesday, Wednesday and Thursday
+Volume <- filter(Volume, day >= 3, day <= 5)
+
+#Filter workable signals
+Volume <- filter(Volume, SignalId%in% c(4301, 4024, 4090, 4165, 4704,
+                                                  4705, 6303, 6304, 6305, 6307))
+
+
+# Build the Pre-Covid df
+Vol_PC <- filter(Volume, BinStartTime < "2020-03-12") #, BinStartTime > "2019-09-12")
+
 # Build the Covid df
 Vol_C <- filter(Volume, BinStartTime >= "2020-03-12")
 
-#Graph Signal Specific Volumes
+
+#Graph Signal Specific Pre-COVID 19 Volumes
+Volume%>%
+  filter(
+    timeperiod == "PMPeak",
+    SignalId == 6395) %>%
+  ggplot(aes(x= BinStartTime, y = Volume_hour, color = PhaseNumber)) +
+  geom_point() #+
+  #scale_colour_gradient(low="pink", high="dark green")
+  #geom_smooth() +
+  #geom_smooth(method = 'lm')
+
+#Graph Signal Specific COVID-19 Volumes
 Vol_C%>%
   filter(
     timeperiod == "PMPeak",
