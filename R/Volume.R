@@ -98,6 +98,32 @@ Vol_C%>%
 
 
 #Pick a month pre-covid to work with and get a mean volume for that signal, day, time period, and phase
+#Feb11-Mar11 Pre-Covid, Mar12-Apr12 Covid, Oct13-Nov13 Flattened the Curve
+  Vol_1 <- filter(Volume,
+                  timeperiod == "PMPeak",
+                  SignalId == 4301,
+                  PhaseNumber ==2,
+                  BinStartTime >= "2020-02-11",
+                  BinStartTime < "2020-03-12")
+  mean_vol1 <- mean(Vol_1$Volume_hour)
+  
+  Vol_2 <- filter(Volume,
+                  timeperiod == "PMPeak",
+                  SignalId == 4301,
+                  PhaseNumber ==2,
+                  BinStartTime >= "2020-03-12",
+                  BinStartTime < "2020-04-12")
+  mean_vol2 <- mean(Vol_2$Volume_hour)  
+  
+  Vol_3 <- filter(Volume,
+                  timeperiod == "PMPeak",
+                  SignalId == 4301,
+                  PhaseNumber ==2,
+                  BinStartTime >= "2020-10-13",
+                  BinStartTime < "2020-11-13")
+  mean_vol3 <- mean(Vol_3$Volume_hour) 
+
+
 #Pick two dates during covid, like when the shutdown happened and sometime after that and find the mean volume in there
 #Pick a date well during COVID when something opened up and sometime after that and find the mean volume
 #Get all of that into a csv or tibble or something and do a paired t test with it (Look back in Stat 201 notes)
