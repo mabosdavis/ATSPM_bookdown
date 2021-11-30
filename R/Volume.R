@@ -89,34 +89,30 @@ Volume%>%
 Vol_C%>%
   filter(
     timeperiod == "PMPeak",
-    SignalId == 6304,
+    SignalId == 4024,
     PhaseNumber ==2,) %>%
   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
-  geom_point() +
-  geom_smooth() +
-  geom_smooth(method = 'lm')
+  geom_point() #+
+  #geom_smooth() +
+  #geom_smooth(method = 'lm')
 
 
-ggplot(data = Vol_PC) +
-  geom_point(mapping = aes(x = BinStartTime, y = Volume))
+#Pick a month pre-covid to work with and get a mean volume for that signal, day, time period, and phase
+#Pick two dates during covid, like when the shutdown happened and sometime after that and find the mean volume in there
+#Pick a date well during COVID when something opened up and sometime after that and find the mean volume
+#Get all of that into a csv or tibble or something and do a paired t test with it (Look back in Stat 201 notes)
 
-#Testing
-Volume_year <- Volume %>% mutate(Time = lubridate::md_hms
-                                 
-                                 #year = lubridate::year(BinStartTime),
-                                 # month = lubridate::month(BinStartTime),
-                                 # day = lubridate::day(BinStartTime),
-                                 # hour = lubridate::hour(BinStartTime),
-                                 # minute = lubridate::minute(BinStartTime)
-                                 # Time = )
-                                 
-                                 Volume_year%>%
-                                   filter(
-                                     timeperiod == "PMPeak",
-                                     SignalId == 6304,
-                                     PhaseNumber ==2,) %>%
-                                   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
-                                   geom_point() +
-                                   geom_smooth() +
-                                   geom_smooth(method = 'lm') +
-                                   facet_wrap(~year)
+
+#Get rid of outliers with for loop
+#for (i in unique(Vol_PC$SignalId))
+{
+  Vol_PC %>%
+    filter(SignalId == 4024)
+  inner <- IQR(Vol_PC$Volume_hour)
+  first_q <- quantile(Vol_PC$Volume_hour, prob=c(.25))
+  third_q <- quantile(Vol_PC$Volume_hour, prob=c(.75))
+  upper = third_q+inner
+  lower = first_q+inner
+  Vol_PC %>%
+    filter(Volume_hour <= (upper), Volume_hour >= (lower))
+  }
