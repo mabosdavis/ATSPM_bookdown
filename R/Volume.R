@@ -31,23 +31,26 @@ write_rds(d, "data/Volume.rds")
 
 # Start HERE unless rebuilding Volume file
 library(tidyverse)
+library(stats)
+library(lubridate)
 
 # Read Volume file in
 Volume <- read_rds("data/Volume.rds")
 
-# Build the Pre-Covid df
-Vol_PC <- filter(Volume, BinStartTime < "2020-03-12")
+# Make a list of Signals for reference
+Signal_List <- c(unique(Volume$SignalId)) %>% 
+  as.tibble() %>%
+  rename(SignalId = value)
 
-#Graph Signal Specific Volumes
-Vol_PC%>%
-  filter(
-    timeperiod == "PMPeak",
-    SignalId == 6304,
-    PhaseNumber ==2,) %>%
-  ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
-  geom_point() +
-  geom_smooth() +
-  geom_smooth(method = 'lm')
+# Read in Signal Names csv
+Signals_Unique <- read_csv("data/Signals_Joined_Unique.csv") %>%
+  select(SignalId, StreetName, PrimaryName, SecondaryName)
+
+#Left Join the Signals from Volume and from Signals_Unique
+Signals_Unique <- left_join(Signal_List, Signals_Unique, by = 'SignalId')
+
+#Left Join the Volume and Signals Unique csv for Corridor Names
+Volume <- left_join(Volume, Signals_Unique, by = 'SignalId')
 
 
 # Build the Covid df
