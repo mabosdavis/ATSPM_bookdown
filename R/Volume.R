@@ -63,7 +63,7 @@ Volume <- mutate(Volume, day = lubridate::wday(BinStartTime))
 Volume <- filter(Volume, day >= 3, day <= 5)
 
 #Filter workable signals
-Workable_Signals <- c(4301, 4024, 4090, 4165, 4704, 4705, 6303, 6304, 6305, 6307)
+Workable_Signals <- c(4301, 4024, 4090, 4704, 4705, 6303, 6304, 6307)
 Volume <- filter(Volume, SignalId%in% Workable_Signals)
 
 
