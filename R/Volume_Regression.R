@@ -74,3 +74,18 @@ Volume_reg <- select(Volume,
                      BinStartTime, SignalId, day, month, Volume_hour, COVID,
                      PhaseNumber, hour, timeperiod, StreetName)
 
+# General Linear Regression Model
+Vol_lm <- lm(Volume_hour ~ day + month + COVID + SignalId, data = Volume_reg)
+summary(Vol_lm)
+
+# Fixed Effects Model for month
+Vol_fe_month <- lm(Volume_hour ~ factor(month), data = Volume_reg)
+summary(Vol_fe_month)
+
+# Fixed Effects Model for day
+Vol_fe_day <- lm(Volume_hour ~ factor(day), data = Volume_reg)
+summary(Vol_fe_day)
+
+# Fixed Effects Model for COVID
+Vol_fe_COVID <- lm(Volume_hour ~ factor(COVID), data = Volume_reg)
+summary(Vol_fe_COVID)
