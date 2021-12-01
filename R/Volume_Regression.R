@@ -69,4 +69,8 @@ Volume <- filter(Volume, day >= 3, day <= 5)
 Workable_Signals <- c(4301, 4090, 4704, 4705, 6303, 6304, 6307)
 Volume <- filter(Volume, SignalId%in% Workable_Signals)
 
+# Reorder columns to a more useful format
+Volume_reg <- select(Volume,
+                     BinStartTime, SignalId, day, month, Volume_hour, COVID,
+                     PhaseNumber, hour, timeperiod, StreetName)
 
