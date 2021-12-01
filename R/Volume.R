@@ -128,6 +128,8 @@ Vol_C%>%
   mean_vol3 <- mean(Vol_3$Volume_hour)
   sd_vol3 <- sd(Vol_3$Volume_hour)
   sample_size3 <- nrow(Vol_3)
+  
+  t.test(x, y, paired = TRUE, alternative = "two.sided")
 
 
 #Pick two dates during covid, like when the shutdown happened and sometime after that and find the mean volume in there
