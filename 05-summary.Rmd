@@ -3,10 +3,14 @@
 library(tidyverse)
 library(modelsummary)
 ```
+During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table \@ref(tab:general).
 
-This section need not be overly long. You should address any limitations of your
-results, such as dependence on underlying assumptions or geographic scope. 
-You should also provide a map for future research.
+Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table \@ref(tab:fe_month) shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table \@ref(tab:fe_day) shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table \@ref(tab:fe_COVID). Individual signals were also shown to be significant in Table \@ref(tab:fe_Signal).
+
+Like with any research, there were significant limitations to the data and analyses. Through the data cleaning process, it became very clear that many of the data provided were not complete or contained detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used in this analysis. Even with the most accurate data available, further detector error or unknown errors could be present. Other factors such as weather, holidays and major events, school openings, weather, and road conditions were not controlled for.
+
+While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.
+
 
 Finally, you should underline the contributions of this work and any practical 
 relevance.
