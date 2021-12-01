@@ -1,4 +1,8 @@
 # Findings
+```{r setup, include = FALSE}
+library(tidyverse)
+library(modelsummary)
+```
 
 This section need not be overly long. You should address any limitations of your
 results, such as dependence on underlying assumptions or geographic scope. 
