@@ -74,6 +74,14 @@ Volume_reg <- select(Volume,
                      BinStartTime, SignalId, day, month, Volume_hour, COVID,
                      PhaseNumber, hour, timeperiod, StreetName)
 
+#Write .rds file
+write_rds(Volume_reg, "data/Volume_reg.rds")
+
+
+
+# Read in Volume dataset
+Volume_reg <- read_rds("data/Volume_reg.rds")
+
 # General Linear Regression Model
 Vol_lm <- lm(Volume_hour ~ day + month + COVID + SignalId, data = Volume_reg)
 summary(Vol_lm)
