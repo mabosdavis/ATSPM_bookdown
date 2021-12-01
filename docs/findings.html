@@ -175,7 +175,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="findings" class="section level1" number="3">
 <h1><span class="header-section-number"> 3</span> Findings</h1>
 <p>During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table <a href="findings.html#tab:general">3.1</a>.</p>
-<p>Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table @ref(tab:fe_month) shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table @ref(tab:fe_day) shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table @ref(tab:fe_COVID). Individual signals were also shown to be significant in Table @ref(tab:fe_Signal).</p>
+<p>Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table <a href="findings.html#tab:FEmonth">3.2</a> shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table <a href="findings.html#tab:FEday">3.3</a> shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table <a href="findings.html#tab:FECOVID">3.4</a>. Individual signals were also shown to be significant in Table <a href="findings.html#tab:FESignal">3.5</a>.</p>
 <p>Like with any research, there were significant limitations to the data and analyses. Through the data cleaning process, it became very clear that many of the data provided were not complete or contained detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used in this analysis. Even with the most accurate data available, further detector error or unknown errors could be present. Other factors such as weather, holidays and major events, school openings, weather, and road conditions were not controlled for.</p>
 <p>While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.</p>
 <p>Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.</p>
@@ -339,7 +339,7 @@ F
 <span id="cb2-4"><a href="findings.html#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Month on hourly Volume&quot;</span>)</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:fe_month)Fixed Effects Model of Month on hourly Volume
+<span id="tab:FEmonth">Table 3.2: </span>Fixed Effects Model of Month on hourly Volume
 </caption>
 <thead>
 <tr>
@@ -595,7 +595,7 @@ F
 <span id="cb3-4"><a href="findings.html#cb3-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Day of the Week on hourly Volume&quot;</span>)</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:fe_day)Fixed Effects Model of Day of the Week on hourly Volume
+<span id="tab:FEday">Table 3.3: </span>Fixed Effects Model of Day of the Week on hourly Volume
 </caption>
 <thead>
 <tr>
@@ -716,7 +716,7 @@ F
 <span id="cb4-4"><a href="findings.html#cb4-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of COVID on hourly Volume&quot;</span>)</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:fe_COVID)Fixed Effects Model of COVID on hourly Volume
+<span id="tab:FECOVID">Table 3.4: </span>Fixed Effects Model of COVID on hourly Volume
 </caption>
 <thead>
 <tr>
@@ -822,7 +822,7 @@ F
 <span id="cb5-4"><a href="findings.html#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Signals on hourly Volume&quot;</span>)</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-(#tab:fe_Signal)Fixed Effects Model of Signals on hourly Volume
+<span id="tab:FESignal">Table 3.5: </span>Fixed Effects Model of Signals on hourly Volume
 </caption>
 <thead>
 <tr>

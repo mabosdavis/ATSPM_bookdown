@@ -10,3 +10,8 @@ tab:unnamed-chunk-2
 tab:unnamed-chunk-3
 tab:unnamed-chunk-4
 tab:general
+tab:femonth
+tab:FEmonth
+tab:FEday
+tab:FECOVID
+tab:FESignal
