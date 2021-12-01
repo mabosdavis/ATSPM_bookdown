@@ -11,6 +11,31 @@ Like with any research, there were significant limitations to the data and analy
 
 While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.
 
+```{r general}
+# Read in Volume dataset
+Volume_reg <- read_rds("data/Volume_reg.rds")
 
-Finally, you should underline the contributions of this work and any practical 
-relevance.
+# General Linear Regression Model
+Vol_lm <- lm(Volume_hour ~ day + month + COVID + SignalId, data = Volume_reg)
+```
+
+```{r fe_month}
+# Fixed Effects Model for month
+Vol_fe_month <- lm(Volume_hour ~ factor(month), data = Volume_reg)
+```
+
+```{r fe_day}
+# Fixed Effects Model for day
+Vol_fe_day <- lm(Volume_hour ~ factor(day), data = Volume_reg)
+```
+
+```{r fe_COVID}
+# Fixed Effects Model for COVID
+Vol_fe_COVID <- lm(Volume_hour ~ factor(COVID), data = Volume_reg)
+```
+
+```{r fe_Signal}
+# Fixed Effects Model for Signals
+Vol_fe_signal <- lm(Volume_hour ~ factor(SignalId), data = Volume_reg)
+```
+
