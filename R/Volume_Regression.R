@@ -58,8 +58,9 @@ Volume <- left_join(Volume, Signals_Unique, by = 'SignalId')
 
 # Extract day from date
 Volume <- mutate(Volume, 
-                 day = lubridate::wday(BinStartTime), 
-                 month = lubridate::month(BinStartTime))
+                 day = lubridate::wday(BinStartTime, abbr = TRUE), 
+                 month = lubridate::month(BinStartTime, abbr = TRUE),
+                 COVID = if_else(BinStartTime > "2020-03-12",TRUE, FALSE))
 
 # Filter just Tuesday, Wednesday and Thursday
 Volume <- filter(Volume, day >= 3, day <= 5)
@@ -69,8 +70,3 @@ Workable_Signals <- c(4301, 4090, 4704, 4705, 6303, 6304, 6307)
 Volume <- filter(Volume, SignalId%in% Workable_Signals)
 
 
-# Build the Pre-Covid df
-Vol_PC <- filter(Volume, BinStartTime < "2020-03-12") #, BinStartTime > "2019-09-12")
-
-# Build the Covid df
-Vol_C <- filter(Volume, BinStartTime >= "2020-03-12")
