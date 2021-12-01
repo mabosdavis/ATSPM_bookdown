@@ -57,7 +57,9 @@ Volume <- left_join(Volume, Signals_Unique, by = 'SignalId')
 
 
 # Extract day from date
-Volume <- mutate(Volume, day = lubridate::wday(BinStartTime))
+Volume <- mutate(Volume, 
+                 day = lubridate::wday(BinStartTime), 
+                 month = lubridate::month(BinStartTime))
 
 # Filter just Tuesday, Wednesday and Thursday
 Volume <- filter(Volume, day >= 3, day <= 5)
