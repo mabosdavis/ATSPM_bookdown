@@ -12,7 +12,7 @@ b <- vol[, lapply(.SD, sum), by=list(BinStartTime, SignalId, ApproachId, PhaseNu
   as_tibble()
 
 # Write Peak identifier    
-c <- b %>% mutate(Volume_hour = Volume*4,
+c <- b %>% mutate(Volume_hour = Volume*4, #!!!adjust this so the volumes are combined into one observation!!!
                   hour = lubridate::hour(BinStartTime),
                   timeperiod = case_when(
                     hour >= 7 & hour <= 9 ~ "AMPeak",
