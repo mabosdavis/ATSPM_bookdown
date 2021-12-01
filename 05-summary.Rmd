@@ -11,6 +11,8 @@ Like with any research, there were significant limitations to the data and analy
 
 While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.
 
+Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.
+
 ```{r general}
 # Read in Volume dataset
 Volume_reg <- read_rds("data/Volume_reg.rds")
