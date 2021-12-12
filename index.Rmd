@@ -5,18 +5,13 @@ author:
     email: mabosdavis@gmail.com
     affiliation: Brigham Young University
     footnote: 1
-  - name: Cosmo Cougar
-    email: bob@example.com
-    affiliation: Brigham Young University
-  - name: Masters Student
-    email: cat@example.com
+  - name: Gregory Macfarlane
+    email: gregmacfarlane@byu.edu
     affiliation: Brigham Young University
     footnote: 2
 address:
   - code: Brigham Young University
     address: Civil and Environmental Engineering Department, 430 Engineering Building, Provo, Utah 84602
-  - code: Another University
-    address: Some Other Place
 footnote:
   - code: 1
     text: "Corresponding Author"
@@ -39,12 +34,10 @@ keywords:
   - Location Choice
 ---
 
-# Questions {#intro}
+# Question {#intro}
 
+Since December 2019, the COVID-19 pandemic has affected life around the world in an unprecedented manner. Mask mandates, social distancing, and stay-at-home orders have changed the way society lives, works, and interacts. With these safety precautions have come less interaction, traveling, and driving on roads and highways. Recent research has confirmed that the COVID-19 pandemic has led to a decrease in traffic volumes across the United States and the world.
 
-Since December 2019, the effects of COVID-19 have been felt across the world. Masks, social distancing, and stay-at-home orders all changed the way that we lived, worked, and interacted as a society. With these safety precautions came less traveling and driving on our roads and highways. Recent research has shown that the COVID-19 pandemic led to a decrease in traffic volumes not just in the United States, but across the globe [@Lee2020; @Lee2021; @Muley2021]. 
+Although this is a recent event, the topic has already been researched in many states and countries [@Lee2020; @Lee2021; @Muley2021], but has not been specifically looked at for Utah and Salt Lake Counties in Utah, USA. These counties also contain signal specific traffic volume detectors, which provide a detailed insight into the variation of the effect of COVID-19 on traffic volumes in different locations. The research question therefore is:
 
-While studies have been done on the effect of COVID-19 on traffic volumes, there has not been any insight into the effect on traffic related performance measures, namely from Automated Traffic Signal Performance Measures (ATSPM) systems. The Utah Department of Transportation's ATSPM system is supplied by data collectors at intersections across the state, which then provide raw data that is converted to performance measures such as Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on Red, and Approach Speed. While traffic volumes may have decreased, did other aspects of traffic captured through these performance measures improve? The research questions therefore are:
-
-  - What was the effect of COVID-19 on ATSPM performance measures?
-  - What were the contributing effects from other factors, such as season, time of day, and weather?
+  - What was the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties?
