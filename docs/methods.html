@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -146,7 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Short Title</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Questions</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Question</a></li>
 <li class="chapter" data-level="2" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>2</b> Methods</a></li>
 <li class="chapter" data-level="3" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>3</b> Findings</a></li>
 <li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
@@ -172,23 +172,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="methods" class="section level1" number="2">
 <h1><span class="header-section-number"> 2</span> Methods</h1>
-<p>UDOT provided ATSPM data for downtown Provo, Orem State Street, University Avenue,
-Orem 800 N, and Fort Union Boulevard in Cottonwood Heights during the years
-2017-2020. It included various performance measure related data, such as Volume,
-Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on
-Red, and Approach Speed.To simplify the analysis, we only focused on Volume.</p>
-<p>Signal and peak hour specific linear models were calculated and compared from
-pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the
-drastic drop of volumes on March 12, 2020, this date was chosen as
-the threshold to start the “during COVID” dataset.The UDOT ATSPM data was available
-through December 31, 2020, so the period of March 12 to December 31 of each year
-was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic.
-The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM,
-or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
+<p>UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT’s Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.</p>
+<p>A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. To divide the Pre COVID-19 time period from the During COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
+<p>Signal and peak hour specific linear models were calculated and compared from pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the
+drastic drop of volumes on March 12, 2020, this date was chosen as the threshold to start the “during COVID” dataset.The UDOT ATSPM data was available
+through December 31, 2020, so the period of March 12 to December 31 of each year was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume.rds&quot;</span>)</span></code></pre></div>
-<p>Often there will be a table describing summary statistics of your dataset.
-Table <a href="#tab:datasummary"><strong>??</strong></a> shows a nice table using the <a href="https://vincentarelbundock.github.io/modelsummary/articles/datasummary.html"><code>datasummary</code></a>
-functions in the <code>modelsummary</code> package.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph Signal Specific Volumes</span></span>
