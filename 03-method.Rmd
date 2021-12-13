@@ -40,29 +40,16 @@ if(knitr::is_latex_output()) {
 } 
 
 ```
-UDOT provided ATSPM data for downtown Provo, Orem State Street, University Avenue,
- Orem 800 N, and Fort Union Boulevard in Cottonwood Heights during the years 
- 2017-2020. It included various performance measure related data, such as Volume,
- Split Failures, Yellow and Red Actuations, Turning Movement Counts, Arrivals on 
- Red, and Approach Speed.To simplify the analysis, we only focused on Volume.
 
-Signal and peak hour specific linear models were calculated and compared from
-pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the 
-drastic drop of volumes on March 12, 2020, this date was chosen as 
-the threshold to start the "during COVID" dataset.The UDOT ATSPM data was available 
-through December 31, 2020, so the period of March 12 to December 31 of each year 
-was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic.
-The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM,
-or the "AM Peak" and "PM Peak" respectively. Only these hours were used in the analysis.
+
+UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT's Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.
+
+A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.
 
 
 ```{r load_data}
 Volume <- read_rds("data/Volume.rds")
 ```
-
-Often there will be a table describing summary statistics of your dataset.
-Table \@ref(tab:datasummary) shows a nice table using the [`datasummary`](https://vincentarelbundock.github.io/modelsummary/articles/datasummary.html) 
-functions in the `modelsummary` package.
 
 ```{r datasummary}
 library(tidyverse)
@@ -85,3 +72,5 @@ time of day, day of the week, weather and road conditions, sporting events and
 major holidays. We took into account season, time of day, day of the week, and 
 major holidays. Major holidays were identified to reduce outliers and only Tuesdays, 
 Wednesdays and Thursdays were included in the analysis.
+
+Variation in traffic volumes are dependent on multiple factors such as season, time of day, and day of the week. These three factors were controlled for and were limited to focus the analysis. For days of the week, only Tuesday, Wednesday and Thursday were analyzed. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the "AM Peak" and "PM Peak" respectively, but only the "PM Peak" data were used in the analysis. Other potential factors include weather and road conditions, sporting events and major holidays. Theses were not accounted for in the analysis.
