@@ -51,3 +51,8 @@ modelsummary(Vol_fe_signal, estimate = "{estimate}, {statistic}, {p.value}{stars
              title = "Fixed Effects Model of Signals on hourly Volume")
 ```
 
+
+```{r}
+modelsummary(list(Vol_fe_month, Vol_fe_day, Vol_fe_COVID, Vol_fe_signal), estimate = "{estimate}, {statistic}, {p.value}{stars}")
+```
+
