@@ -55,7 +55,16 @@ modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_contro
                "factor(month)7" = "July",
                "factor(month)8" = "August",
                "factor(month)9" = "September",
-```{r}
-modelsummary(list(Vol_fe_month, Vol_fe_day, Vol_fe_COVID, Vol_fe_signal), estimate = "{estimate}, {statistic}, {p.value}{stars}")
+               "factor(month)10" = "October",
+               "factor(month)11" = "November",
+               "factor(month)12" = "December",
+               "factor(day)4" = "Wednesday",
+               "factor(day)5" = "Thursday")) %>%
+  kable_styling() %>%
+  row_spec(8, color = 'red') %>%
+  group_rows("Signal", 2, 7) %>%
+  group_rows("COVID-19", 8, 8) %>%
+  group_rows("Month", 9, 19) %>%
+  group_rows("Day", 20, 21)
 ```
 
