@@ -50,7 +50,7 @@ A general linear regression and four fixed effect models were created to evaluat
 Volume_reg <- read_rds("data/Volume_reg.rds")
 ```
 
-```{r datasummary}
+```{r datasummary, fig.cap="Traffic volumes at State St and 800 N in Orem, UT before and during the COVID-19 pandemic."}
 library(tidyverse)
 
 #Graph Signal Specific Volumes
