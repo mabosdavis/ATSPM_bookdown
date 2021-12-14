@@ -64,10 +64,4 @@ Volume_reg%>%
   ylab("Volume (vehicles per hour)")
 ```
 
-Variation in traffic volumes is dependent on multiple factors such as season, 
-time of day, day of the week, weather and road conditions, sporting events and 
-major holidays. We took into account season, time of day, day of the week, and 
-major holidays. Major holidays were identified to reduce outliers and only Tuesdays, 
-Wednesdays and Thursdays were included in the analysis.
-
 Variation in traffic volumes are dependent on multiple factors such as season, time of day, and day of the week. These three factors were controlled for and were limited to focus the analysis. For days of the week, only Tuesday, Wednesday and Thursday were analyzed. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the "AM Peak" and "PM Peak" respectively, but only the "PM Peak" data were used in the analysis. Other potential factors include weather and road conditions, sporting events and major holidays. Theses were not accounted for in the analysis.
