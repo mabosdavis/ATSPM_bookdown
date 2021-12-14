@@ -56,14 +56,12 @@ library(tidyverse)
 #Graph Signal Specific Volumes
 Volume_reg%>%
   filter(
-    timeperiod == "AMPeak",
-    SignalId == 6303,
-    PhaseNumber ==2) %>%
+    timeperiod == "PMPeak",
+    SignalId == 4024) %>%
   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
   geom_point() +
-  geom_smooth(color = 'red') +
   xlab("Time") +
-  ylab("Volume (vehicles per hour")
+  ylab("Volume (vehicles per hour)")
 ```
 
 Variation in traffic volumes is dependent on multiple factors such as season, 
