@@ -19,6 +19,9 @@ While not perfect, this analysis provides the conclusion that despite seasonal a
 
 Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.
 
+
+Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.
+
 ```{r general}
 # Read in Volume dataset
 Volume_reg <- read_rds("data/Volume_reg.rds")
