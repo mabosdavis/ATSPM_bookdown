@@ -49,24 +49,26 @@ Signal_List <- c(unique(Volume$SignalId)) %>%
 Signals_Unique <- read_csv("data/Signals_Joined_Unique.csv") %>%
   select(SignalId, StreetName, PrimaryName, SecondaryName)
 
-#Left Join the Signals from Volume and from Signals_Unique
+# Left Join the Signals from Volume and from Signals_Unique
 Signals_Unique <- left_join(Signal_List, Signals_Unique, by = 'SignalId')
 
-#Left Join the Volume and Signals Unique csv for Corridor Names
+# Left Join the Volume and Signals Unique csv for Corridor Names
 Volume <- left_join(Volume, Signals_Unique, by = 'SignalId')
-
 
 # Extract day from date
 Volume <- mutate(Volume, 
-                 day = lubridate::wday(BinStartTime, abbr = TRUE), 
-                 month = lubridate::month(BinStartTime, abbr = TRUE),
+                 day = lubridate::wday(BinStartTime), 
+                 month = lubridate::month(BinStartTime),
                  COVID = if_else(BinStartTime > "2020-03-12",TRUE, FALSE))
+
+# Filter after January 1, 2018
+Volume <- filter(Volume, BinStartTime >= "2018-01-01")
 
 # Filter just Tuesday, Wednesday and Thursday
 Volume <- filter(Volume, day >= 3, day <= 5)
 
 #Filter workable signals
-Workable_Signals <- c(4301, 4090, 4704, 4705, 6303, 6304, 6307)
+Workable_Signals <- c(6303, 6304, 6307, 4024, 4090, 4704, 4705)
 Volume <- filter(Volume, SignalId%in% Workable_Signals)
 
 # Reorder columns to a more useful format
