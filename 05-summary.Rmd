@@ -1,7 +1,13 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Findings
 ```{r setup, include = FALSE}
 library(tidyverse)
 library(modelsummary)
+library(kableExtra)
 ```
 During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table \@ref(tab:general).
 
