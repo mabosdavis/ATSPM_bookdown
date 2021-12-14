@@ -15,12 +15,10 @@ address:
 footnote:
   - code: 1
     text: "Corresponding Author"
-  - code: 2
-    text: "Present affiliation: some nice job"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: article
-journal: "Submitted to Journal"
+journal: "Journal"
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
@@ -29,9 +27,9 @@ abstract: |
 description: "A short description"
 layout: "3p, authoryear"
 keywords:
-  - Accessibility
-  - Passive Data
-  - Location Choice
+  - COVID-19,
+  - Traffic volumes,
+  - ATSPM
 ---
 
 # Question {#intro}
