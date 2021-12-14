@@ -131,6 +131,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -145,7 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Short Title</a></li>
+<li><a href="./">ATSPM Data Analysis</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Question</a></li>
@@ -180,42 +202,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.</p>
 <p>Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.</p>
 <p>Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="findings.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in Volume dataset</span></span>
-<span id="cb1-2"><a href="findings.html#cb1-2" aria-hidden="true" tabindex="-1"></a>Volume_reg <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume_reg.rds&quot;</span>)</span>
-<span id="cb1-3"><a href="findings.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="findings.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># General Linear Regression Model</span></span>
-<span id="cb1-5"><a href="findings.html#cb1-5" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(SignalId), <span class="at">data =</span> Volume_reg)</span>
-<span id="cb1-6"><a href="findings.html#cb1-6" aria-hidden="true" tabindex="-1"></a>covid_Base <span class="ot">&lt;-</span> <span class="fu">update</span>(base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> COVID)</span>
-<span id="cb1-7"><a href="findings.html#cb1-7" aria-hidden="true" tabindex="-1"></a>covid_controls <span class="ot">&lt;-</span> <span class="fu">update</span>(covid_Base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> <span class="fu">factor</span>(month) <span class="sc">+</span> <span class="fu">factor</span>(day))</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="findings.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Base&quot;</span> <span class="ot">=</span> base, <span class="st">&quot;COVID&quot;</span> <span class="ot">=</span> covid_Base, <span class="st">&quot;Controls&quot;</span> <span class="ot">=</span> covid_controls),</span>
-<span id="cb2-2"><a href="findings.html#cb2-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">estimate =</span> <span class="st">&quot;{estimate}{stars}&quot;</span>, <span class="at">statistic =</span> <span class="cn">NULL</span>, </span>
-<span id="cb2-3"><a href="findings.html#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">output =</span> <span class="st">&#39;kableExtra&#39;</span>,</span>
-<span id="cb2-4"><a href="findings.html#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">coef_map =</span> <span class="fu">c</span>(</span>
-<span id="cb2-5"><a href="findings.html#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;(Intercept)&quot;</span> <span class="ot">=</span> <span class="st">&quot;Intercept&quot;</span>,</span>
-<span id="cb2-6"><a href="findings.html#cb2-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4090&quot;</span> <span class="ot">=</span> <span class="st">&quot;4090&quot;</span>,</span>
-<span id="cb2-7"><a href="findings.html#cb2-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4704&quot;</span> <span class="ot">=</span> <span class="st">&quot;4704&quot;</span>,</span>
-<span id="cb2-8"><a href="findings.html#cb2-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4705&quot;</span> <span class="ot">=</span> <span class="st">&quot;4705&quot;</span>,</span>
-<span id="cb2-9"><a href="findings.html#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6303&quot;</span> <span class="ot">=</span> <span class="st">&quot;6303&quot;</span>,</span>
-<span id="cb2-10"><a href="findings.html#cb2-10" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6304&quot;</span> <span class="ot">=</span> <span class="st">&quot;6304&quot;</span>,</span>
-<span id="cb2-11"><a href="findings.html#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6307&quot;</span> <span class="ot">=</span> <span class="st">&quot;6307&quot;</span>,</span>
-<span id="cb2-12"><a href="findings.html#cb2-12" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;COVIDTRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;COVID&quot;</span>,</span>
-<span id="cb2-13"><a href="findings.html#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)2&quot;</span> <span class="ot">=</span> <span class="st">&quot;February&quot;</span>,</span>
-<span id="cb2-14"><a href="findings.html#cb2-14" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)3&quot;</span> <span class="ot">=</span> <span class="st">&quot;March&quot;</span>,</span>
-<span id="cb2-15"><a href="findings.html#cb2-15" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;April&quot;</span>,</span>
-<span id="cb2-16"><a href="findings.html#cb2-16" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;May&quot;</span>,</span>
-<span id="cb2-17"><a href="findings.html#cb2-17" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)6&quot;</span> <span class="ot">=</span> <span class="st">&quot;June&quot;</span>,</span>
-<span id="cb2-18"><a href="findings.html#cb2-18" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)7&quot;</span> <span class="ot">=</span> <span class="st">&quot;July&quot;</span>,</span>
-<span id="cb2-19"><a href="findings.html#cb2-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)8&quot;</span> <span class="ot">=</span> <span class="st">&quot;August&quot;</span>,</span>
-<span id="cb2-20"><a href="findings.html#cb2-20" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)9&quot;</span> <span class="ot">=</span> <span class="st">&quot;September&quot;</span>,</span>
-<span id="cb2-21"><a href="findings.html#cb2-21" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)10&quot;</span> <span class="ot">=</span> <span class="st">&quot;October&quot;</span>,</span>
-<span id="cb2-22"><a href="findings.html#cb2-22" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)11&quot;</span> <span class="ot">=</span> <span class="st">&quot;November&quot;</span>,</span>
-<span id="cb2-23"><a href="findings.html#cb2-23" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)12&quot;</span> <span class="ot">=</span> <span class="st">&quot;December&quot;</span>,</span>
-<span id="cb2-24"><a href="findings.html#cb2-24" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;Wednesday&quot;</span>,</span>
-<span id="cb2-25"><a href="findings.html#cb2-25" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;Thursday&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-26"><a href="findings.html#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb2-27"><a href="findings.html#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">8</span>, <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-28"><a href="findings.html#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">&quot;Month&quot;</span>, <span class="dv">9</span>, <span class="dv">19</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-29"><a href="findings.html#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">&quot;Day&quot;</span>, <span class="dv">20</span>, <span class="dv">21</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="findings.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in Volume dataset</span></span>
+<span id="cb3-2"><a href="findings.html#cb3-2" aria-hidden="true" tabindex="-1"></a>Volume_reg <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume_reg.rds&quot;</span>)</span>
+<span id="cb3-3"><a href="findings.html#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="findings.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># General Linear Regression Model</span></span>
+<span id="cb3-5"><a href="findings.html#cb3-5" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(SignalId), <span class="at">data =</span> Volume_reg)</span>
+<span id="cb3-6"><a href="findings.html#cb3-6" aria-hidden="true" tabindex="-1"></a>covid_Base <span class="ot">&lt;-</span> <span class="fu">update</span>(base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> COVID)</span>
+<span id="cb3-7"><a href="findings.html#cb3-7" aria-hidden="true" tabindex="-1"></a>covid_controls <span class="ot">&lt;-</span> <span class="fu">update</span>(covid_Base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> <span class="fu">factor</span>(month) <span class="sc">+</span> <span class="fu">factor</span>(day))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="findings.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Base&quot;</span> <span class="ot">=</span> base, <span class="st">&quot;COVID&quot;</span> <span class="ot">=</span> covid_Base, <span class="st">&quot;Controls&quot;</span> <span class="ot">=</span> covid_controls),</span>
+<span id="cb4-2"><a href="findings.html#cb4-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">estimate =</span> <span class="st">&quot;{estimate}{stars}&quot;</span>, <span class="at">statistic =</span> <span class="cn">NULL</span>, </span>
+<span id="cb4-3"><a href="findings.html#cb4-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">output =</span> <span class="st">&#39;kableExtra&#39;</span>,</span>
+<span id="cb4-4"><a href="findings.html#cb4-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">gof_omit =</span> <span class="st">&#39;IC|Log|Adj&#39;</span>,</span>
+<span id="cb4-5"><a href="findings.html#cb4-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">coef_map =</span> <span class="fu">c</span>(</span>
+<span id="cb4-6"><a href="findings.html#cb4-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;(Intercept)&quot;</span> <span class="ot">=</span> <span class="st">&quot;Intercept&quot;</span>,</span>
+<span id="cb4-7"><a href="findings.html#cb4-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4090&quot;</span> <span class="ot">=</span> <span class="st">&quot;4090&quot;</span>,</span>
+<span id="cb4-8"><a href="findings.html#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4704&quot;</span> <span class="ot">=</span> <span class="st">&quot;4704&quot;</span>,</span>
+<span id="cb4-9"><a href="findings.html#cb4-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4705&quot;</span> <span class="ot">=</span> <span class="st">&quot;4705&quot;</span>,</span>
+<span id="cb4-10"><a href="findings.html#cb4-10" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6303&quot;</span> <span class="ot">=</span> <span class="st">&quot;6303&quot;</span>,</span>
+<span id="cb4-11"><a href="findings.html#cb4-11" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6304&quot;</span> <span class="ot">=</span> <span class="st">&quot;6304&quot;</span>,</span>
+<span id="cb4-12"><a href="findings.html#cb4-12" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6307&quot;</span> <span class="ot">=</span> <span class="st">&quot;6307&quot;</span>,</span>
+<span id="cb4-13"><a href="findings.html#cb4-13" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;COVIDTRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;COVID&quot;</span>,</span>
+<span id="cb4-14"><a href="findings.html#cb4-14" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)2&quot;</span> <span class="ot">=</span> <span class="st">&quot;February&quot;</span>,</span>
+<span id="cb4-15"><a href="findings.html#cb4-15" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)3&quot;</span> <span class="ot">=</span> <span class="st">&quot;March&quot;</span>,</span>
+<span id="cb4-16"><a href="findings.html#cb4-16" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;April&quot;</span>,</span>
+<span id="cb4-17"><a href="findings.html#cb4-17" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;May&quot;</span>,</span>
+<span id="cb4-18"><a href="findings.html#cb4-18" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)6&quot;</span> <span class="ot">=</span> <span class="st">&quot;June&quot;</span>,</span>
+<span id="cb4-19"><a href="findings.html#cb4-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)7&quot;</span> <span class="ot">=</span> <span class="st">&quot;July&quot;</span>,</span>
+<span id="cb4-20"><a href="findings.html#cb4-20" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)8&quot;</span> <span class="ot">=</span> <span class="st">&quot;August&quot;</span>,</span>
+<span id="cb4-21"><a href="findings.html#cb4-21" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)9&quot;</span> <span class="ot">=</span> <span class="st">&quot;September&quot;</span>,</span>
+<span id="cb4-22"><a href="findings.html#cb4-22" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)10&quot;</span> <span class="ot">=</span> <span class="st">&quot;October&quot;</span>,</span>
+<span id="cb4-23"><a href="findings.html#cb4-23" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)11&quot;</span> <span class="ot">=</span> <span class="st">&quot;November&quot;</span>,</span>
+<span id="cb4-24"><a href="findings.html#cb4-24" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)12&quot;</span> <span class="ot">=</span> <span class="st">&quot;December&quot;</span>,</span>
+<span id="cb4-25"><a href="findings.html#cb4-25" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;Wednesday&quot;</span>,</span>
+<span id="cb4-26"><a href="findings.html#cb4-26" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;Thursday&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-27"><a href="findings.html#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-28"><a href="findings.html#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">8</span>, <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-29"><a href="findings.html#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_rows</span>(<span class="st">&quot;Signal&quot;</span>, <span class="dv">2</span>, <span class="dv">7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-30"><a href="findings.html#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_rows</span>(<span class="st">&quot;COVID-19&quot;</span>, <span class="dv">8</span>, <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-31"><a href="findings.html#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_rows</span>(<span class="st">&quot;Month&quot;</span>, <span class="dv">9</span>, <span class="dv">19</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-32"><a href="findings.html#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_rows</span>(<span class="st">&quot;Day&quot;</span>, <span class="dv">20</span>, <span class="dv">21</span>)</span></code></pre></div>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -247,8 +272,13 @@ Intercept
 583.915***
 </td>
 </tr>
+<tr grouplength="6">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>Signal</strong>
+</td>
+</tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 4090
 </td>
 <td style="text-align:center;">
@@ -262,7 +292,7 @@ Intercept
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 4704
 </td>
 <td style="text-align:center;">
@@ -276,7 +306,7 @@ Intercept
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 4705
 </td>
 <td style="text-align:center;">
@@ -290,7 +320,7 @@ Intercept
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 6303
 </td>
 <td style="text-align:center;">
@@ -304,7 +334,7 @@ Intercept
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 6304
 </td>
 <td style="text-align:center;">
@@ -318,7 +348,7 @@ Intercept
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 6307
 </td>
 <td style="text-align:center;">
@@ -331,8 +361,13 @@ Intercept
 369.262***
 </td>
 </tr>
+<tr grouplength="1">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>COVID-19</strong>
+</td>
+</tr>
 <tr>
-<td style="text-align:left;color: red !important;">
+<td style="text-align:left;color: red !important;padding-left: 2em;" indentlevel="1">
 COVID
 </td>
 <td style="text-align:center;color: red !important;">
@@ -536,62 +571,6 @@ R2
 </td>
 <td style="text-align:center;">
 0.524
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.515
-</td>
-<td style="text-align:center;">
-0.518
-</td>
-<td style="text-align:center;">
-0.524
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2144396.7
-</td>
-<td style="text-align:center;">
-2143455.4
-</td>
-<td style="text-align:center;">
-2141823.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2144475.9
-</td>
-<td style="text-align:center;">
-2143544.6
-</td>
-<td style="text-align:center;">
-2142041.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1072190.356
-</td>
-<td style="text-align:center;">
--1071718.713
-</td>
-<td style="text-align:center;">
--1070889.669
 </td>
 </tr>
 <tr>
