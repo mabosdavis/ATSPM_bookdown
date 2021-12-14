@@ -63,7 +63,7 @@ Volume <- mutate(Volume, day = lubridate::wday(BinStartTime))
 Volume <- filter(Volume, day >= 3, day <= 5)
 
 #Filter workable signals
-Workable_Signals <- c(4301, 4090, 4704, 4705, 6303, 6304, 6307)
+Workable_Signals <- c(4024, 4090, 4704, 4705, 6303, 6304, 6307)
 Volume <- filter(Volume, SignalId%in% Workable_Signals)
 
 
@@ -78,7 +78,7 @@ Vol_C <- filter(Volume, BinStartTime >= "2020-03-12")
 Volume%>%
   filter(
     timeperiod == "PMPeak",
-    SignalId == 6395) %>%
+    SignalId == 6303) %>%
   ggplot(aes(x= BinStartTime, y = Volume_hour, color = PhaseNumber)) +
   geom_point() #+
   #scale_colour_gradient(low="pink", high="dark green")
@@ -89,7 +89,7 @@ Volume%>%
 Vol_C%>%
   filter(
     timeperiod == "PMPeak",
-    SignalId == 4024,
+    SignalId == 4301,
     PhaseNumber ==2,) %>%
   ggplot(aes(x= BinStartTime, y = Volume_hour, color = hour)) +
   geom_point() #+
