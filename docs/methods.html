@@ -173,17 +173,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="methods" class="section level1" number="2">
 <h1><span class="header-section-number"> 2</span> Methods</h1>
 <p>UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT’s Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.</p>
-<p>A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. To divide the Pre COVID-19 time period from the During COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
-<p>Signal and peak hour specific linear models were calculated and compared from pre-COVID pandemic time periods to during the COVID pandemic time periods. Becuase of the
-drastic drop of volumes on March 12, 2020, this date was chosen as the threshold to start the “during COVID” dataset.The UDOT ATSPM data was available
-through December 31, 2020, so the period of March 12 to December 31 of each year was used for comparison. Linear models were created and graphed together using a facet grid to show and measure the percent change in volumes due to the COVID-19 pandemic. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the “AM Peak” and “PM Peak” respectively. Only these hours were used in the analysis.</p>
+<p>A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume.rds&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="methods.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Graph Signal Specific Volumes</span></span>
 <span id="cb2-4"><a href="methods.html#cb2-4" aria-hidden="true" tabindex="-1"></a>Volume<span class="sc">%&gt;%</span></span>
 <span id="cb2-5"><a href="methods.html#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb2-6"><a href="methods.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    timeperiod <span class="sc">==</span> <span class="st">&quot;AMPeak&quot;</span>,</span>
+<span id="cb2-6"><a href="methods.html#cb2-6" aria-hidden="true" tabindex="-1"></a>    timeperiod <span class="sc">==</span> <span class="st">&quot;PMPeak&quot;</span>,</span>
 <span id="cb2-7"><a href="methods.html#cb2-7" aria-hidden="true" tabindex="-1"></a>    SignalId <span class="sc">==</span> <span class="dv">6303</span>,</span>
 <span id="cb2-8"><a href="methods.html#cb2-8" aria-hidden="true" tabindex="-1"></a>    PhaseNumber <span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-9"><a href="methods.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> BinStartTime, <span class="at">y =</span> Volume_hour, <span class="at">color =</span> hour)) <span class="sc">+</span></span>
@@ -192,12 +189,13 @@ through December 31, 2020, so the period of March 12 to December 31 of each year
 <span id="cb2-12"><a href="methods.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Time&quot;</span>) <span class="sc">+</span></span>
 <span id="cb2-13"><a href="methods.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Volume (vehicles per hour&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="ATSPM_data_analysis_files/figure-html/datasummary-1.png" width="672" /></p>
-<p>Variation in traffic volumes is dependent on multiple factors such as season,
-time of day, day of the week, weather and road conditions, sporting events and
-major holidays. We took into account season, time of day, day of the week, and
-major holidays. Major holidays were identified to reduce outliers and only Tuesdays,
-Wednesdays and Thursdays were included in the analysis.</p>
+<div class="figure"><span style="display:block;" id="fig:datasummary"></span>
+<img src="ATSPM_data_analysis_files/figure-html/datasummary-1.png" alt="Traffic volumes at State St and 800 N in Orem, UT before and during the COVID-19 pandemic." width="672" />
+<p class="caption">
+Figure 2.1: Traffic volumes at State St and 800 N in Orem, UT before and during the COVID-19 pandemic.
+</p>
+</div>
+<p>Variation in traffic volumes are dependent on multiple factors such as season, time of day, and day of the week. These three factors were controlled for and were limited to focus the analysis. For days of the week, only Tuesday, Wednesday and Thursday were analyzed. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the “AM Peak” and “PM Peak” respectively, but only the “PM Peak” data were used in the analysis. Other potential factors include weather and road conditions, sporting events and major holidays. Theses were not accounted for in the analysis.</p>
 
 </div>
             </section>

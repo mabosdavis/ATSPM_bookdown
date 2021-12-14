@@ -1,8 +1,0 @@
-intro
-methods
-findings
-tab:general
-tab:FEmonth
-tab:FEday
-tab:FECOVID
-tab:FESignal

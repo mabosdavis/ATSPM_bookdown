@@ -43,6 +43,7 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
+\usepackage{graphicx}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -81,6 +82,8 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{siunitx}
+\newcolumntype{d}{S[input-symbols = ()]}
 
 
 
@@ -90,12 +93,9 @@
   \title{ATSPM Data Analysis}
     \author[Brigham Young University]{Matthew Davis\corref{1}}
    \ead{mabosdavis@gmail.com} 
-    \author[Brigham Young University]{Cosmo Cougar}
-   \ead{bob@example.com} 
-    \author[Brigham Young University]{Masters Student\corref{2}}
-   \ead{cat@example.com} 
+    \author[Brigham Young University]{Gregory Macfarlane\corref{2}}
+   \ead{gregmacfarlane@byu.edu} 
       \address[Brigham Young University]{Civil and Environmental Engineering Department, 430 Engineering Building, Provo, Utah 84602}
-    \address[Another University]{Some Other Place}
       \cortext[1]{Corresponding Author}
     \cortext[2]{Present affiliation: some nice job}
   
@@ -106,114 +106,90 @@
  \end{frontmatter}
 
 \hypertarget{intro}{%
-\section{Questions}\label{intro}}
+\section{Question}\label{intro}}
 
-This repository serves as a template both in how to write a report, and how
-to do so in RStudio and Bookdown. The parent repository is available as a free
-template at \url{https://github.com/byu-transpolab/template_bookdown}.
+Since December 2019, the COVID-19 pandemic has affected life around the world in an unprecedented manner. Mask mandates, social distancing, and stay-at-home orders have changed the way society lives, works, and interacts. With these safety precautions have come less interaction, traveling, and driving on roads and highways. Recent research has confirmed that the COVID-19 pandemic has led to a decrease in traffic volumes across the United States and the world.
 
-The advice in this document comes from numerous sources. Some of it is my own, some
-has been shared by others. Particular note belongs to:
+Although this is a recent event, the topic has already been researched in many states and countries \citep{Lee2020, Lee2021, Muley2021}, but has not been specifically looked at for Utah and Salt Lake Counties in Utah, USA. These counties also contain signal specific traffic volume detectors, which provide a detailed insight into the variation of the effect of COVID-19 on traffic volumes in different locations. The research question therefore is:
 
 \begin{itemize}
 \tightlist
 \item
-  Laurie Garrow
-\item
-  Lisa Rosenstein
-\item
-  Kara Kockelman
+  What was the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties?
 \end{itemize}
-
-The introduction of your report is not simply an ``introduction'', but rather a
-\textbf{motivation} of why your project matters. What is the cost of not solving
-this problem? What have been previous attempts to solve this problem? The \emph{why}
-is more important than the \emph{what}. Why is this article worthy of archiving?
-
-A three or four-paragraph structure can work well here.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Identify the problem and why it matters.
-\item
-  A high-level overview of some previous attempts to solve it, and why those
-  attempts were limited (this might be two paragraphs).
-\item
-  Describe the approach (very briefly), and provide an overview of what is
-  to come. ``In this paper we present \ldots{}''
-\end{enumerate}
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
-In this chapter, you describe the approach you have taken on the problem. This
-usually involves a discussion about both the data you used and the models you
-applied.
+UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT's Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.
 
-\hypertarget{data}{%
-\subsection{Data}\label{data}}
+A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.
 
-Discuss where you got your data, how you cleaned it, any assumptions you made.
-
-Often there will be a table describing summary statistics of your dataset.
-Table \ref{tab:datasummary} shows a nice table using the \href{https://vincentarelbundock.github.io/modelsummary/articles/datasummary.html}{\texttt{datasummary}}
-functions in the \texttt{modelsummary} package.
-
-\begin{table}
-
-\caption{\label{tab:datasummary}Descriptive Statistics of Dataset}
+\begin{figure}
 \centering
-\begin{tabular}[t]{llrrrrrrrrrrrr}
-\toprule
-\multicolumn{2}{c}{ } & \multicolumn{2}{c}{regcar (N=10930)} & \multicolumn{2}{c}{sportuv (N=1048)} & \multicolumn{2}{c}{sportcar (N=880)} & \multicolumn{2}{c}{stwagon (N=4446)} & \multicolumn{2}{c}{truck (N=5628)} & \multicolumn{2}{c}{van (N=4992)} \\
-\cmidrule(l{3pt}r{3pt}){3-4} \cmidrule(l{3pt}r{3pt}){5-6} \cmidrule(l{3pt}r{3pt}){7-8} \cmidrule(l{3pt}r{3pt}){9-10} \cmidrule(l{3pt}r{3pt}){11-12} \cmidrule(l{3pt}r{3pt}){13-14}
-  &    & Mean & Std. Dev. & Mean  & Std. Dev.  & Mean   & Std. Dev.   & Mean    & Std. Dev.    & Mean     & Std. Dev.     & Mean      & Std. Dev.     \\
-\midrule
-price &  & 4.2 & 1.9 & 4.7 & 1.9 & 4.8 & 2.2 & 4.1 & 1.9 & 4.2 & 2.0 & 4.2 & 1.9\\
-range &  & 237.2 & 94.5 & 241.6 & 94.7 & 233.6 & 96.7 & 238.7 & 94.3 & 238.2 & 93.1 & 236.8 & 94.7\\
-size &  & 2.4 & 0.8 & 2.1 & 1.0 & 1.4 & 1.0 & 2.3 & 0.8 & 2.4 & 0.8 & 2.5 & 0.7\\
-\midrule
- &  & N & Pct. & N & Pct. & N & Pct. & N & Pct. & N & Pct. & N & Pct.\\
-fuel & gasoline & 2704 & 24.7 & 280 & 26.7 & 218 & 24.8 & 1096 & 24.7 & 1413 & 25.1 & 1247 & 25.0\\
- & methanol & 2729 & 25.0 & 246 & 23.5 & 225 & 25.6 & 1091 & 24.5 & 1445 & 25.7 & 1216 & 24.4\\
- & cng & 2767 & 25.3 & 260 & 24.8 & 238 & 27.0 & 1109 & 24.9 & 1360 & 24.2 & 1282 & 25.7\\
- & electric & 2730 & 25.0 & 262 & 25.0 & 199 & 22.6 & 1150 & 25.9 & 1410 & 25.1 & 1247 & 25.0\\
-\bottomrule
-\end{tabular}
-\end{table}
+\includegraphics{ATSPM_data_analysis_files/figure-latex/datasummary-1.pdf}
+\caption{\label{fig:datasummary}Traffic volumes at State St and 800 N in Orem, UT before and during the COVID-19 pandemic.}
+\end{figure}
 
-\hypertarget{models}{%
-\subsection{Models}\label{models}}
-
-If your work is mostly a new model, you probably will have introduced some
-details in the literature review. But this is where you describe the
-mathematical construction of your model, the variables it uses, and other
-things. Some methods are so common (linear regression) that it is unnecessary to
-explore them in detail. But others will need to be described, often with
-mathematics. For example, the probability of a multinomial logit model is
-
-\begin{equation}
-  P_i(X_{in}) = \frac{e^{X_{in}\beta_i}}{\sum_{j \in J}e^{X_{jn}\beta_j}}
-  \label{eq:mnl}
-\end{equation}
-
-Use \href{https://www.overleaf.com/learn/latex/mathematical_expressions}{LaTeX mathematics}.
-You'll want to number display equations so that you can
-refer to them later in the manuscript. Other simpler math can be described inline,
-like saying that \(i, j \in J\). Details on using equations in bookdown are available
-\href{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}{here}.
+Variation in traffic volumes are dependent on multiple factors such as season, time of day, and day of the week. These three factors were controlled for and were limited to focus the analysis. For days of the week, only Tuesday, Wednesday and Thursday were analyzed. The density of vehicles was greatest during the hours of 7AM to 9AM and 4PM to 6PM, or the ``AM Peak'' and ``PM Peak'' respectively, but only the ``PM Peak'' data were used in the analysis. Other potential factors include weather and road conditions, sporting events and major holidays. Theses were not accounted for in the analysis.
 
 \hypertarget{findings}{%
 \section{Findings}\label{findings}}
 
-This section need not be overly long. You should address any limitations of your
-results, such as dependence on underlying assumptions or geographic scope.
-You should also provide a map for future research.
+During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table \ref{tab:general}.
 
-Finally, you should underline the contributions of this work and any practical
-relevance.
+Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table \ref{tab:FEmonth} shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table \ref{tab:FEday} shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table \ref{tab:FECOVID}. Individual signals were also shown to be significant in Table \ref{tab:FESignal}.
+
+Like with any research, there were significant limitations to the data and analyses. Through the data cleaning process, it became very clear that many of the data provided were not complete or contained detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used in this analysis. Even with the most accurate data available, further detector error or unknown errors could be present. Other factors such as weather, holidays and major events, school openings, weather, and road conditions were not controlled for.
+
+While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.
+
+Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.
+
+Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.
+
+\begin{table}
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+  & Base & COVID & Controls\\
+\midrule
+Intercept & \num{597.659}*** & \num{613.964}*** & \num{583.915}***\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Signal}}\\
+\hspace{1em}4090 & \num{-144.368}*** & \num{-144.014}*** & \num{-143.891}***\\
+\hspace{1em}4704 & \num{-256.367}*** & \num{-256.367}*** & \num{-256.367}***\\
+\hspace{1em}4705 & \num{-297.147}*** & \num{-297.147}*** & \num{-297.147}***\\
+\hspace{1em}6303 & \num{521.797}*** & \num{521.797}*** & \num{521.797}***\\
+\hspace{1em}6304 & \num{587.444}*** & \num{587.444}*** & \num{587.444}***\\
+\hspace{1em}6307 & \num{361.787}*** & \num{374.462}*** & \num{369.262}***\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{COVID-19}}\\
+\hspace{1em}\textcolor{red}{COVID} & \textcolor{red}{} & \textcolor{red}{\num{-60.470}***} & \textcolor{red}{\num{-64.316}***}\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Month}}\\
+\hspace{1em}February &  &  & \num{40.496}***\\
+\hspace{1em}March &  &  & \num{-4.807}\\
+\hspace{1em}April &  &  & \num{-49.007}***\\
+\hspace{1em}May &  &  & \num{18.477}***\\
+\hspace{1em}June &  &  & \num{68.951}***\\
+\hspace{1em}July &  &  & \num{66.158}***\\
+\hspace{1em}August &  &  & \num{81.054}***\\
+\hspace{1em}September &  &  & \num{67.783}***\\
+\hspace{1em}October &  &  & \num{35.628}***\\
+\hspace{1em}November &  &  & \num{33.557}***\\
+\hspace{1em}December &  &  & \num{18.169}***\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Day}}\\
+\hspace{1em}Wednesday &  &  & \num{-2.018}\\
+\hspace{1em}Thursday &  &  & \num{2.368}\\
+\midrule
+Num.Obs. & \num{147888} & \num{147888} & \num{147888}\\
+R2 & \num{0.515} & \num{0.518} & \num{0.524}\\
+F & \num{26192.568} & \num{22729.455} & \num{8127.656}\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \bibliography{book.bib}
 

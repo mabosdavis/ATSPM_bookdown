@@ -174,105 +174,340 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="findings" class="section level1" number="3">
 <h1><span class="header-section-number"> 3</span> Findings</h1>
-<p>During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table <a href="findings.html#tab:general">3.1</a>.</p>
-<p>Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table <a href="findings.html#tab:FEmonth">3.2</a> shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table <a href="findings.html#tab:FEday">3.3</a> shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table <a href="findings.html#tab:FECOVID">3.4</a>. Individual signals were also shown to be significant in Table <a href="findings.html#tab:FESignal">3.5</a>.</p>
+<p>During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table <a href="#tab:general"><strong>??</strong></a>.</p>
+<p>Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table <a href="#tab:FEmonth"><strong>??</strong></a> shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table <a href="#tab:FEday"><strong>??</strong></a> shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table <a href="#tab:FECOVID"><strong>??</strong></a>. Individual signals were also shown to be significant in Table <a href="#tab:FESignal"><strong>??</strong></a>.</p>
 <p>Like with any research, there were significant limitations to the data and analyses. Through the data cleaning process, it became very clear that many of the data provided were not complete or contained detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used in this analysis. Even with the most accurate data available, further detector error or unknown errors could be present. Other factors such as weather, holidays and major events, school openings, weather, and road conditions were not controlled for.</p>
 <p>While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.</p>
 <p>Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.</p>
+<p>Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="findings.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in Volume dataset</span></span>
 <span id="cb1-2"><a href="findings.html#cb1-2" aria-hidden="true" tabindex="-1"></a>Volume_reg <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume_reg.rds&quot;</span>)</span>
 <span id="cb1-3"><a href="findings.html#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="findings.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># General Linear Regression Model</span></span>
-<span id="cb1-5"><a href="findings.html#cb1-5" aria-hidden="true" tabindex="-1"></a>Vol_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> day <span class="sc">+</span> month <span class="sc">+</span> COVID <span class="sc">+</span> SignalId, <span class="at">data =</span> Volume_reg)</span>
-<span id="cb1-6"><a href="findings.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(Vol_lm, <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>, </span>
-<span id="cb1-7"><a href="findings.html#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;General Model&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:general">Table 3.1: </span>General Model
-</caption>
+<span id="cb1-5"><a href="findings.html#cb1-5" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(SignalId), <span class="at">data =</span> Volume_reg)</span>
+<span id="cb1-6"><a href="findings.html#cb1-6" aria-hidden="true" tabindex="-1"></a>covid_Base <span class="ot">&lt;-</span> <span class="fu">update</span>(base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> COVID)</span>
+<span id="cb1-7"><a href="findings.html#cb1-7" aria-hidden="true" tabindex="-1"></a>covid_controls <span class="ot">&lt;-</span> <span class="fu">update</span>(covid_Base, <span class="at">formula =</span> . <span class="sc">~</span> . <span class="sc">+</span> <span class="fu">factor</span>(month) <span class="sc">+</span> <span class="fu">factor</span>(day))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="findings.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;Base&quot;</span> <span class="ot">=</span> base, <span class="st">&quot;COVID&quot;</span> <span class="ot">=</span> covid_Base, <span class="st">&quot;Controls&quot;</span> <span class="ot">=</span> covid_controls),</span>
+<span id="cb2-2"><a href="findings.html#cb2-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">estimate =</span> <span class="st">&quot;{estimate}{stars}&quot;</span>, <span class="at">statistic =</span> <span class="cn">NULL</span>, </span>
+<span id="cb2-3"><a href="findings.html#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">output =</span> <span class="st">&#39;kableExtra&#39;</span>,</span>
+<span id="cb2-4"><a href="findings.html#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">coef_map =</span> <span class="fu">c</span>(</span>
+<span id="cb2-5"><a href="findings.html#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;(Intercept)&quot;</span> <span class="ot">=</span> <span class="st">&quot;Intercept&quot;</span>,</span>
+<span id="cb2-6"><a href="findings.html#cb2-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4090&quot;</span> <span class="ot">=</span> <span class="st">&quot;4090&quot;</span>,</span>
+<span id="cb2-7"><a href="findings.html#cb2-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4704&quot;</span> <span class="ot">=</span> <span class="st">&quot;4704&quot;</span>,</span>
+<span id="cb2-8"><a href="findings.html#cb2-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)4705&quot;</span> <span class="ot">=</span> <span class="st">&quot;4705&quot;</span>,</span>
+<span id="cb2-9"><a href="findings.html#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6303&quot;</span> <span class="ot">=</span> <span class="st">&quot;6303&quot;</span>,</span>
+<span id="cb2-10"><a href="findings.html#cb2-10" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6304&quot;</span> <span class="ot">=</span> <span class="st">&quot;6304&quot;</span>,</span>
+<span id="cb2-11"><a href="findings.html#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(SignalId)6307&quot;</span> <span class="ot">=</span> <span class="st">&quot;6307&quot;</span>,</span>
+<span id="cb2-12"><a href="findings.html#cb2-12" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;COVIDTRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;COVID&quot;</span>,</span>
+<span id="cb2-13"><a href="findings.html#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)2&quot;</span> <span class="ot">=</span> <span class="st">&quot;February&quot;</span>,</span>
+<span id="cb2-14"><a href="findings.html#cb2-14" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)3&quot;</span> <span class="ot">=</span> <span class="st">&quot;March&quot;</span>,</span>
+<span id="cb2-15"><a href="findings.html#cb2-15" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;April&quot;</span>,</span>
+<span id="cb2-16"><a href="findings.html#cb2-16" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;May&quot;</span>,</span>
+<span id="cb2-17"><a href="findings.html#cb2-17" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)6&quot;</span> <span class="ot">=</span> <span class="st">&quot;June&quot;</span>,</span>
+<span id="cb2-18"><a href="findings.html#cb2-18" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)7&quot;</span> <span class="ot">=</span> <span class="st">&quot;July&quot;</span>,</span>
+<span id="cb2-19"><a href="findings.html#cb2-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)8&quot;</span> <span class="ot">=</span> <span class="st">&quot;August&quot;</span>,</span>
+<span id="cb2-20"><a href="findings.html#cb2-20" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)9&quot;</span> <span class="ot">=</span> <span class="st">&quot;September&quot;</span>,</span>
+<span id="cb2-21"><a href="findings.html#cb2-21" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)10&quot;</span> <span class="ot">=</span> <span class="st">&quot;October&quot;</span>,</span>
+<span id="cb2-22"><a href="findings.html#cb2-22" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)11&quot;</span> <span class="ot">=</span> <span class="st">&quot;November&quot;</span>,</span>
+<span id="cb2-23"><a href="findings.html#cb2-23" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(month)12&quot;</span> <span class="ot">=</span> <span class="st">&quot;December&quot;</span>,</span>
+<span id="cb2-24"><a href="findings.html#cb2-24" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)4&quot;</span> <span class="ot">=</span> <span class="st">&quot;Wednesday&quot;</span>,</span>
+<span id="cb2-25"><a href="findings.html#cb2-25" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;factor(day)5&quot;</span> <span class="ot">=</span> <span class="st">&quot;Thursday&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-26"><a href="findings.html#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="findings.html#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">8</span>, <span class="at">color =</span> <span class="st">&#39;red&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-28"><a href="findings.html#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">&quot;Month&quot;</span>, <span class="dv">9</span>, <span class="dv">19</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-29"><a href="findings.html#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pack_rows</span>(<span class="st">&quot;Day&quot;</span>, <span class="dv">20</span>, <span class="dv">21</span>)</span></code></pre></div>
+<table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
 </th>
 <th style="text-align:center;">
-Model 1
+Base
+</th>
+<th style="text-align:center;">
+COVID
+</th>
+<th style="text-align:center;">
+Controls
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-(Intercept)
+Intercept
 </td>
 <td style="text-align:center;">
--1097.077, -154.694, 0.000***
+597.659***
+</td>
+<td style="text-align:center;">
+613.964***
+</td>
+<td style="text-align:center;">
+583.915***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+4090
 </td>
 <td style="text-align:center;">
-(7.092)
+-144.368***
+</td>
+<td style="text-align:center;">
+-144.014***
+</td>
+<td style="text-align:center;">
+-143.891***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-day
+4704
 </td>
 <td style="text-align:center;">
--0.379, -0.336, 0.737
+-256.367***
+</td>
+<td style="text-align:center;">
+-256.367***
+</td>
+<td style="text-align:center;">
+-256.367***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+4705
 </td>
 <td style="text-align:center;">
-(1.126)
+-297.147***
+</td>
+<td style="text-align:center;">
+-297.147***
+</td>
+<td style="text-align:center;">
+-297.147***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-month
+6303
 </td>
 <td style="text-align:center;">
-0.989, 3.737, 0.000***
+521.797***
+</td>
+<td style="text-align:center;">
+521.797***
+</td>
+<td style="text-align:center;">
+521.797***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
+6304
 </td>
 <td style="text-align:center;">
-(0.265)
+587.444***
+</td>
+<td style="text-align:center;">
+587.444***
+</td>
+<td style="text-align:center;">
+587.444***
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-COVIDTRUE
+6307
 </td>
 <td style="text-align:center;">
--92.667, -45.451, 0.000***
+361.787***
+</td>
+<td style="text-align:center;">
+374.462***
+</td>
+<td style="text-align:center;">
+369.262***
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
+<td style="text-align:left;color: red !important;">
+COVID
 </td>
-<td style="text-align:center;">
-(2.039)
+<td style="text-align:center;color: red !important;">
+</td>
+<td style="text-align:center;color: red !important;">
+-60.470***
+</td>
+<td style="text-align:center;color: red !important;">
+-64.316***
+</td>
+</tr>
+<tr grouplength="11">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>Month</strong>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-SignalId
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+February
 </td>
 <td style="text-align:center;">
-0.345, 346.319, 0.000***
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+40.496***
 </td>
 </tr>
 <tr>
-<td style="text-align:left;box-shadow: 0px 1px">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+March
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+-4.807
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+April
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+-49.007***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+May
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+18.477***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+June
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+68.951***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+July
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+66.158***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+August
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+81.054***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+September
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+67.783***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+October
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+35.628***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+November
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+33.557***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+December
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+18.169***
+</td>
+</tr>
+<tr grouplength="2">
+<td colspan="4" style="border-bottom: 1px solid;">
+<strong>Day</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+Wednesday
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+-2.018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1pxpadding-left: 2em;" indentlevel="1">
+Thursday
 </td>
 <td style="text-align:center;box-shadow: 0px 1px">
-(0.001)
+</td>
+<td style="text-align:center;box-shadow: 0px 1px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1px">
+2.368
 </td>
 </tr>
 <tr>
@@ -280,7 +515,13 @@ SignalId
 Num.Obs.
 </td>
 <td style="text-align:center;">
-162816
+147888
+</td>
+<td style="text-align:center;">
+147888
+</td>
+<td style="text-align:center;">
+147888
 </td>
 </tr>
 <tr>
@@ -288,7 +529,13 @@ Num.Obs.
 R2
 </td>
 <td style="text-align:center;">
-0.428
+0.515
+</td>
+<td style="text-align:center;">
+0.518
+</td>
+<td style="text-align:center;">
+0.524
 </td>
 </tr>
 <tr>
@@ -296,7 +543,13 @@ R2
 R2 Adj.
 </td>
 <td style="text-align:center;">
-0.428
+0.515
+</td>
+<td style="text-align:center;">
+0.518
+</td>
+<td style="text-align:center;">
+0.524
 </td>
 </tr>
 <tr>
@@ -304,7 +557,13 @@ R2 Adj.
 AIC
 </td>
 <td style="text-align:center;">
-2388632.5
+2144396.7
+</td>
+<td style="text-align:center;">
+2143455.4
+</td>
+<td style="text-align:center;">
+2141823.3
 </td>
 </tr>
 <tr>
@@ -312,7 +571,13 @@ AIC
 BIC
 </td>
 <td style="text-align:center;">
-2388692.5
+2144475.9
+</td>
+<td style="text-align:center;">
+2143544.6
+</td>
+<td style="text-align:center;">
+2142041.2
 </td>
 </tr>
 <tr>
@@ -320,7 +585,13 @@ BIC
 Log.Lik.
 </td>
 <td style="text-align:center;">
--1194310.259
+-1072190.356
+</td>
+<td style="text-align:center;">
+-1071718.713
+</td>
+<td style="text-align:center;">
+-1070889.669
 </td>
 </tr>
 <tr>
@@ -328,1386 +599,13 @@ Log.Lik.
 F
 </td>
 <td style="text-align:center;">
-30510.827
+26192.568
 </td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="findings.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed Effects Model for month</span></span>
-<span id="cb2-2"><a href="findings.html#cb2-2" aria-hidden="true" tabindex="-1"></a>Vol_fe_month <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(month), <span class="at">data =</span> Volume_reg)</span>
-<span id="cb2-3"><a href="findings.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(Vol_fe_month, <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>, </span>
-<span id="cb2-4"><a href="findings.html#cb2-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Month on hourly Volume&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:FEmonth">Table 3.2: </span>Fixed Effects Model of Month on hourly Volume
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-Model 1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:center;">
-636.273, 152.473, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(4.173)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)2
-</td>
-<td style="text-align:center;">
-37.452, 6.062, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.178)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)3
-</td>
-<td style="text-align:center;">
--17.588, -2.891, 0.004**
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.085)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)4
-</td>
-<td style="text-align:center;">
--69.079, -11.469, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.023)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)5
-</td>
-<td style="text-align:center;">
-15.131, 2.559, 0.010*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.912)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)6
-</td>
-<td style="text-align:center;">
-57.958, 9.584, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.047)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)7
-</td>
-<td style="text-align:center;">
-54.589, 9.266, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.891)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)8
-</td>
-<td style="text-align:center;">
-77.672, 12.983, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.983)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)9
-</td>
-<td style="text-align:center;">
-53.280, 8.880, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.000)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)10
-</td>
-<td style="text-align:center;">
-38.749, 6.560, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.907)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)11
-</td>
-<td style="text-align:center;">
--22.485, -3.927, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.726)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)12
-</td>
-<td style="text-align:center;">
--37.502, -6.741, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-(5.563)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Num.Obs.
-</td>
-<td style="text-align:center;">
-162816
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2
-</td>
-<td style="text-align:center;">
-0.008
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.008
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2478456.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2478586.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1239215.359
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:center;">
-115.631
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="findings.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed Effects Model for day</span></span>
-<span id="cb3-2"><a href="findings.html#cb3-2" aria-hidden="true" tabindex="-1"></a>Vol_fe_day <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(day), <span class="at">data =</span> Volume_reg)</span>
-<span id="cb3-3"><a href="findings.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(Vol_fe_day, <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>, </span>
-<span id="cb3-4"><a href="findings.html#cb3-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Day of the Week on hourly Volume&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:FEday">Table 3.3: </span>Fixed Effects Model of Day of the Week on hourly Volume
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-Model 1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:center;">
-651.634, 309.058, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(2.108)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(day)4
-</td>
-<td style="text-align:center;">
--3.245, -1.089, 0.276
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(2.980)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(day)5
-</td>
-<td style="text-align:center;">
--1.569, -0.527, 0.598
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-(2.980)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Num.Obs.
-</td>
-<td style="text-align:center;">
-162816
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2
-</td>
-<td style="text-align:center;">
-0.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2479704.6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2479744.6
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1239848.311
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:center;">
-0.593
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="findings.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed Effects Model for COVID</span></span>
-<span id="cb4-2"><a href="findings.html#cb4-2" aria-hidden="true" tabindex="-1"></a>Vol_fe_COVID <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(COVID), <span class="at">data =</span> Volume_reg)</span>
-<span id="cb4-3"><a href="findings.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(Vol_fe_COVID, <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>, </span>
-<span id="cb4-4"><a href="findings.html#cb4-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of COVID on hourly Volume&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:FECOVID">Table 3.4: </span>Fixed Effects Model of COVID on hourly Volume
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-Model 1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:center;">
-677.216, 467.631, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(1.448)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(COVID)TRUE
-</td>
-<td style="text-align:center;">
--90.767, -34.302, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-(2.646)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Num.Obs.
-</td>
-<td style="text-align:center;">
-162816
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2478531.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2478561.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1239262.687
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:center;">
-1176.651
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="findings.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed Effects Model for Signals</span></span>
-<span id="cb5-2"><a href="findings.html#cb5-2" aria-hidden="true" tabindex="-1"></a>Vol_fe_signal <span class="ot">&lt;-</span> <span class="fu">lm</span>(Volume_hour <span class="sc">~</span> <span class="fu">factor</span>(SignalId), <span class="at">data =</span> Volume_reg)</span>
-<span id="cb5-3"><a href="findings.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(Vol_fe_signal, <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>, </span>
-<span id="cb5-4"><a href="findings.html#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">title =</span> <span class="st">&quot;Fixed Effects Model of Signals on hourly Volume&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-<span id="tab:FESignal">Table 3.5: </span>Fixed Effects Model of Signals on hourly Volume
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-Model 1
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:center;">
-457.161, 198.951, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(2.298)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4301
-</td>
-<td style="text-align:center;">
--9.342, -3.107, 0.002**
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(3.007)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4704
-</td>
-<td style="text-align:center;">
--115.314, -35.667, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4705
-</td>
-<td style="text-align:center;">
--155.534, -48.107, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6303
-</td>
-<td style="text-align:center;">
-665.493, 205.837, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6304
-</td>
-<td style="text-align:center;">
-677.359, 209.508, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6307
-</td>
-<td style="text-align:center;">
-502.285, 130.194, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-(3.858)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Num.Obs.
-</td>
-<td style="text-align:center;">
-162816
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2
-</td>
-<td style="text-align:center;">
-0.493
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.493
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2369140.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2369220.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1184562.096
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:center;">
-26379.559
-</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="findings.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(Vol_fe_month, Vol_fe_day, Vol_fe_COVID, Vol_fe_signal), <span class="at">estimate =</span> <span class="st">&quot;{estimate}, {statistic}, {p.value}{stars}&quot;</span>)</span></code></pre></div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:center;">
-Model 1
-</th>
-<th style="text-align:center;">
-Model 2
-</th>
-<th style="text-align:center;">
-Model 3
-</th>
-<th style="text-align:center;">
-Model 4
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-(Intercept)
-</td>
-<td style="text-align:center;">
-636.273, 152.473, 0.000***
-</td>
-<td style="text-align:center;">
-651.634, 309.058, 0.000***
-</td>
-<td style="text-align:center;">
-677.216, 467.631, 0.000***
-</td>
-<td style="text-align:center;">
-457.161, 198.951, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(4.173)
-</td>
-<td style="text-align:center;">
-(2.108)
-</td>
-<td style="text-align:center;">
-(1.448)
-</td>
-<td style="text-align:center;">
-(2.298)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)2
-</td>
-<td style="text-align:center;">
-37.452, 6.062, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.178)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)3
-</td>
-<td style="text-align:center;">
--17.588, -2.891, 0.004**
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.085)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)4
-</td>
-<td style="text-align:center;">
--69.079, -11.469, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.023)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)5
-</td>
-<td style="text-align:center;">
-15.131, 2.559, 0.010*
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.912)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)6
-</td>
-<td style="text-align:center;">
-57.958, 9.584, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.047)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)7
-</td>
-<td style="text-align:center;">
-54.589, 9.266, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.891)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)8
-</td>
-<td style="text-align:center;">
-77.672, 12.983, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.983)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)9
-</td>
-<td style="text-align:center;">
-53.280, 8.880, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(6.000)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)10
-</td>
-<td style="text-align:center;">
-38.749, 6.560, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.907)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)11
-</td>
-<td style="text-align:center;">
--22.485, -3.927, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.726)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(month)12
-</td>
-<td style="text-align:center;">
--37.502, -6.741, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-(5.563)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(day)4
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--3.245, -1.089, 0.276
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(2.980)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(day)5
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--1.569, -0.527, 0.598
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(2.980)
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(COVID)TRUE
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--90.767, -34.302, 0.000***
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(2.646)
-</td>
-<td style="text-align:center;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4301
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--9.342, -3.107, 0.002**
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(3.007)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4704
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--115.314, -35.667, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)4705
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
--155.534, -48.107, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6303
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-665.493, 205.837, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6304
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-677.359, 209.508, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-(3.233)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor(SignalId)6307
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-</td>
-<td style="text-align:center;">
-502.285, 130.194, 0.000***
-</td>
-</tr>
-<tr>
-<td style="text-align:left;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-</td>
-<td style="text-align:center;box-shadow: 0px 1px">
-(3.858)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Num.Obs.
-</td>
-<td style="text-align:center;">
-162816
-</td>
-<td style="text-align:center;">
-162816
-</td>
-<td style="text-align:center;">
-162816
-</td>
-<td style="text-align:center;">
-162816
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2
-</td>
-<td style="text-align:center;">
-0.008
-</td>
-<td style="text-align:center;">
-0.000
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-<td style="text-align:center;">
-0.493
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-R2 Adj.
-</td>
-<td style="text-align:center;">
-0.008
-</td>
-<td style="text-align:center;">
-0.000
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-<td style="text-align:center;">
-0.493
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-AIC
-</td>
-<td style="text-align:center;">
-2478456.7
-</td>
-<td style="text-align:center;">
-2479704.6
-</td>
-<td style="text-align:center;">
-2478531.4
-</td>
-<td style="text-align:center;">
-2369140.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BIC
-</td>
-<td style="text-align:center;">
-2478586.7
-</td>
-<td style="text-align:center;">
-2479744.6
-</td>
-<td style="text-align:center;">
-2478561.4
-</td>
-<td style="text-align:center;">
-2369220.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Log.Lik.
-</td>
-<td style="text-align:center;">
--1239215.359
-</td>
-<td style="text-align:center;">
--1239848.311
-</td>
-<td style="text-align:center;">
--1239262.687
-</td>
-<td style="text-align:center;">
--1184562.096
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-F
-</td>
-<td style="text-align:center;">
-115.631
-</td>
-<td style="text-align:center;">
-0.593
-</td>
 <td style="text-align:center;">
-1176.651
+22729.455
 </td>
 <td style="text-align:center;">
-26379.559
+8127.656
 </td>
 </tr>
 </tbody>
