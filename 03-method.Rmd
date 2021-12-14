@@ -46,16 +46,15 @@ UDOT provided volume data for many signals, but for the purposes of this researc
 
 A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.
 
-
 ```{r load_data}
-Volume <- read_rds("data/Volume.rds")
+Volume_reg <- read_rds("data/Volume_reg.rds")
 ```
 
 ```{r datasummary}
 library(tidyverse)
 
 #Graph Signal Specific Volumes
-Volume%>%
+Volume_reg%>%
   filter(
     timeperiod == "AMPeak",
     SignalId == 6303,
