@@ -27,40 +27,34 @@ Base controls for Signals, COVID is base, but also controlling for COVID. Contro
 Volume_reg <- read_rds("data/Volume_reg.rds")
 
 # General Linear Regression Model
-Vol_lm <- lm(Volume_hour ~ day + month + COVID + SignalId, data = Volume_reg)
-modelsummary(Vol_lm, estimate = "{estimate}, {statistic}, {p.value}{stars}", 
-             title = "General Model")
+base <- lm(Volume_hour ~ factor(SignalId), data = Volume_reg)
+covid_Base <- update(base, formula = . ~ . + COVID)
+covid_controls <- update(covid_Base, formula = . ~ . + factor(month) + factor(day))
+
 ```
 
-```{r FEmonth}
-# Fixed Effects Model for month
-Vol_fe_month <- lm(Volume_hour ~ factor(month), data = Volume_reg)
-modelsummary(Vol_fe_month, estimate = "{estimate}, {statistic}, {p.value}{stars}", 
-             title = "Fixed Effects Model of Month on hourly Volume")
-```
-
-```{r FEday}
-# Fixed Effects Model for day
-Vol_fe_day <- lm(Volume_hour ~ factor(day), data = Volume_reg)
-modelsummary(Vol_fe_day, estimate = "{estimate}, {statistic}, {p.value}{stars}", 
-             title = "Fixed Effects Model of Day of the Week on hourly Volume")
-```
-
-```{r FECOVID}
-# Fixed Effects Model for COVID
-Vol_fe_COVID <- lm(Volume_hour ~ factor(COVID), data = Volume_reg)
-modelsummary(Vol_fe_COVID, estimate = "{estimate}, {statistic}, {p.value}{stars}", 
-             title = "Fixed Effects Model of COVID on hourly Volume")
-```
-
-```{r FESignal}
-# Fixed Effects Model for Signals
-Vol_fe_signal <- lm(Volume_hour ~ factor(SignalId), data = Volume_reg)
-modelsummary(Vol_fe_signal, estimate = "{estimate}, {statistic}, {p.value}{stars}", 
-             title = "Fixed Effects Model of Signals on hourly Volume")
-```
-
-
+```{r modeltab}
+modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_controls),
+             estimate = "{estimate}{stars}", statistic = NULL, 
+             output = 'kableExtra',
+             gof_omit = 'IC|Log|Adj',
+             coef_map = c(
+               "(Intercept)" = "Intercept",
+               "factor(SignalId)4090" = "4090",
+               "factor(SignalId)4704" = "4704",
+               "factor(SignalId)4705" = "4705",
+               "factor(SignalId)6303" = "6303",
+               "factor(SignalId)6304" = "6304",
+               "factor(SignalId)6307" = "6307",
+               "COVIDTRUE" = "COVID",
+               "factor(month)2" = "February",
+               "factor(month)3" = "March",
+               "factor(month)4" = "April",
+               "factor(month)5" = "May",
+               "factor(month)6" = "June",
+               "factor(month)7" = "July",
+               "factor(month)8" = "August",
+               "factor(month)9" = "September",
 ```{r}
 modelsummary(list(Vol_fe_month, Vol_fe_day, Vol_fe_COVID, Vol_fe_signal), estimate = "{estimate}, {statistic}, {p.value}{stars}")
 ```
