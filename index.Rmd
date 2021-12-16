@@ -23,13 +23,29 @@ bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
 abstract: |
-  This is where the abstract should go.
+  We report on the results of an experiment to evaluate the effect of the COVID-19 pandemic on traffic volumes in Orem and Cottonwood Heights, Utah. Linear regression models show that COVID-19 resulted in an 11% reduction of vehicles per hour on average. Individual signals, month and day of week were controlled for, but signal detector error resulted in a limited number of signals with usable data available for analysis. While only seven signals were used, this methodology in encouraging for future use with more data.
 description: "An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties"
 layout: "3p, authoryear"
 keywords:
   - COVID-19,
   - Traffic volumes,
   - ATSPM
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{tabu}
+  - \usepackage{threeparttable}
+  - \usepackage{threeparttablex}
+  - \usepackage[normalem]{ulem}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage{makecell}
+  - \usepackage{xcolor}
 ---
 
 # Question {#intro}
