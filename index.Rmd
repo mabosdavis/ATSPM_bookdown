@@ -1,5 +1,5 @@
 ---
-title: "ATSPM Data Analysis"
+title: "The Effect of COVID-19 on Utah Traffic Volumes"
 author:
   - name: Matthew Davis
     email: mabosdavis@gmail.com
@@ -24,7 +24,7 @@ biblio-style: apalike
 link-citations: yes
 abstract: |
   This is where the abstract should go.
-description: "A short description"
+description: "An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties"
 layout: "3p, authoryear"
 keywords:
   - COVID-19,
