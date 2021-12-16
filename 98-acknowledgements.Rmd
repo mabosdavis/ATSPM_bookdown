@@ -1,0 +1,5 @@
+# Acknowledgements
+
+We are grateful to the Utah Department of Transportation and UTA for supporting
+this research by providing data and configuring the experiment. Graphics and 
+tables were produced with several open-source R packages [@modelsummary; @Wickham2016-kz; @kableExtra].
