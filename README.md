@@ -1,4 +1,6 @@
 ## ATSPM Data Analysis Project
 
 This `bookdown` repository holds the code and text for Matthew Davis' CCE 594R
-term project relating to ATSPM data analysis.
+term project relating to traffic volume analysis relating to COVID-19. 
+
+The Volume_reg.rds file is sufficient to run the html website and create the graphics and tables on the html and pdf, but if any changes would like to be made to the analysis, the separate Volume.rds file can be used. This file must be placed in the "data" folder under the "ATSPM_bookdown" main folder. Analysis was run using the Volume_Regression.R file found in the "R" folder. The top half of the file was used to clean the data and reduce the size of the the file, so that file is available from the owner of this repository, but the Volume.rds file was created so the transfer of a large file was not necessary. Any changes can be made in the second half with regards to changing applicable signals, separation dates, AM or PM peak, or information on which signal relates to which primary and secondary street. The third portion of the Volume_Regression.R file was used to do some preliminary linear regression analysis and has been left on the file in case of using the code in the future.
