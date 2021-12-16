@@ -1,5 +1,3 @@
 # Acknowledgements
 
-We are grateful to the Utah Department of Transportation and UTA for supporting
-this research by providing data and configuring the experiment. Graphics and 
-tables were produced with several open-source R packages [@modelsummary; @Wickham2016-kz; @kableExtra].
+We are grateful for the Utah Department of Transportation for supporting this research by providing the traffic volume data. Graphs and plots were created using three open-source R packages [@modelsummary; @ggplot2; @kableExtra].
