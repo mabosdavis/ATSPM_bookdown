@@ -1,0 +1,67 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Findings
+```{r setup, include = FALSE}
+library(tidyverse)
+library(modelsummary)
+library(kableExtra)
+options(tinytex.verbose = TRUE)
+```
+
+Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.
+
+
+
+
+```{r general}
+# Read in Volume dataset
+Volume_reg <- read_rds("data/Volume_reg.rds")
+
+# General Linear Regression Model
+base <- lm(Volume_hour ~ factor(SignalId), data = Volume_reg)
+covid_Base <- update(base, formula = . ~ . + COVID)
+covid_controls <- update(covid_Base, formula = . ~ . + factor(month) + factor(day))
+
+```
+
+```{r modeltab}
+modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_controls),
+             estimate = "{estimate}{stars}", statistic = NULL, 
+             output = 'kableExtra',
+             gof_omit = 'IC|Log|Adj',
+             coef_map = c(
+               "(Intercept)" = "Intercept",
+               "factor(SignalId)4090" = "4090",
+               "factor(SignalId)4704" = "4704",
+               "factor(SignalId)4705" = "4705",
+               "factor(SignalId)6303" = "6303",
+               "factor(SignalId)6304" = "6304",
+               "factor(SignalId)6307" = "6307",
+               "COVIDTRUE" = "COVID",
+               "factor(month)2" = "February",
+               "factor(month)3" = "March",
+               "factor(month)4" = "April",
+               "factor(month)5" = "May",
+               "factor(month)6" = "June",
+               "factor(month)7" = "July",
+               "factor(month)8" = "August",
+               "factor(month)9" = "September",
+               "factor(month)10" = "October",
+               "factor(month)11" = "November",
+               "factor(month)12" = "December",
+               "factor(day)4" = "Wednesday",
+               "factor(day)5" = "Thursday"),
+             title = "Traffic Volume Estimates",
+             notes = c("t-statistics in parentheses, * p < 0.1, ** p < 0.05, *** p < 0.01",
+                       "Coefficients represent change in traffic volumes per hour.")) %>%
+  kable_styling() %>%
+  row_spec(8, color = 'red') %>%
+  group_rows("Signal", 2, 7) %>%
+  group_rows("COVID-19", 8, 8) %>%
+  group_rows("Month", 9, 19) %>%
+  group_rows("Day", 20, 21)
+```
+
