@@ -1,5 +1,5 @@
 ---
-title: "ATSPM Data Analysis"
+title: "The Effect of COVID-19 on Utah Traffic Volumes"
 author:
   - name: Matthew Davis
     email: mabosdavis@gmail.com
@@ -24,11 +24,11 @@ biblio-style: apalike
 link-citations: yes
 abstract: |
   This is where the abstract should go.
-description: "A short description"
+description: "An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties"
 layout: "3p, authoryear"
 keywords:
-  - COVID-19
-  - Traffic volumes
+  - COVID-19,
+  - Traffic volumes,
   - ATSPM
 ---
 
@@ -88,7 +88,7 @@ if(knitr::is_latex_output()) {
 
 UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT's Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.
 
-A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.
+Three models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. The first was a base model which controlled for variation in volumes at each signal. The second was our base model, but additionally controlling for the effects of COVID-19. The third was the second model, but also controlled for day of the week and month. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.
 
 ```{r load_data}
 Volume_reg <- read_rds("data/Volume_reg.rds")
@@ -122,19 +122,13 @@ editor_options:
 library(tidyverse)
 library(modelsummary)
 library(kableExtra)
+options(tinytex.verbose = TRUE)
 ```
-During the analysis, several variables were found to have a statistically significant effect on traffic. Month of the year, the time period of the COVID-19 pandemic, and difference in traffic signals were all found to have a significant effect on vehicles per hour of phases 2 and 6 of the signals specified in the methods section. This is seen in Table \@ref(tab:general).
-
-Each individual factor was given a fixed effects model to further investigate where significant factors occurred. Table \@ref(tab:FEmonth) shows that with January as the reference, each month, except for May, was statistically significant. Standard errors were similar across the year, with beta intercepts vary widely. The effect of day of the week though was the complete opposite. Table \@ref(tab:FEday) shows that day of the week had little to no affect on variations in hourly volume. Difference in whether or not a date was occuring after March 12, 2021, which was assumed to be the start of the COVID-19 pandemic shutdown in Utah, was shown to be significant in Table \@ref(tab:FECOVID). Individual signals were also shown to be significant in Table \@ref(tab:FESignal).
-
-Like with any research, there were significant limitations to the data and analyses. Through the data cleaning process, it became very clear that many of the data provided were not complete or contained detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used in this analysis. Even with the most accurate data available, further detector error or unknown errors could be present. Other factors such as weather, holidays and major events, school openings, weather, and road conditions were not controlled for.
-
-While not perfect, this analysis provides the conclusion that despite seasonal and signal specific variation, hourly volumes were significantly affected by the COVID-19 pandemic.
-
-Note: The Methods section still needs to be updated to reflect the changes in methodology made in the last few days.
-
 
 Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.
+
+
+
 
 ```{r general}
 # Read in Volume dataset
@@ -173,7 +167,10 @@ modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_contro
                "factor(month)11" = "November",
                "factor(month)12" = "December",
                "factor(day)4" = "Wednesday",
-               "factor(day)5" = "Thursday")) %>%
+               "factor(day)5" = "Thursday"),
+             title = "Traffic Volume Estimates",
+             notes = c("t-statistics in parentheses, * p < 0.1, ** p < 0.05, *** p < 0.01",
+                       "Coefficients represent change in traffic volumes per hour.")) %>%
   kable_styling() %>%
   row_spec(8, color = 'red') %>%
   group_rows("Signal", 2, 7) %>%
@@ -183,11 +180,19 @@ modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_contro
 ```
 
 
-<!--chapter:end:05-summary.Rmd-->
+<!--chapter:end:04-summary.Rmd-->
+
+# Acknowledgements
+
+We are grateful to the Utah Department of Transportation and UTA for supporting
+this research by providing data and configuring the experiment. Graphics and 
+tables were produced with several open-source R packages [@modelsummary; @Wickham2016-kz; @kableExtra].
+
+<!--chapter:end:98-acknowledgements.Rmd-->
 
 `r if (knitr::is_html_output()) '
-# Acknowledgements {-}
+# References {-}
 '`
 
-<!--chapter:end:06-references.Rmd-->
+<!--chapter:end:99-references.Rmd-->
 

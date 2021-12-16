@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title> 2 Methods | ATSPM Data Analysis</title>
-  <meta name="description" content="A short description" />
+  <title> 2 Methods | The Effect of COVID-19 on Utah Traffic Volumes</title>
+  <meta name="description" content="An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content=" 2 Methods | ATSPM Data Analysis" />
+  <meta property="og:title" content=" 2 Methods | The Effect of COVID-19 on Utah Traffic Volumes" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="A short description" />
+  <meta property="og:description" content="An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content=" 2 Methods | ATSPM Data Analysis" />
+  <meta name="twitter:title" content=" 2 Methods | The Effect of COVID-19 on Utah Traffic Volumes" />
   
-  <meta name="twitter:description" content="A short description" />
+  <meta name="twitter:description" content="An analysis of the effect of COVID-19 on traffic volumes in Utah and Salt Lake Counties" />
   
 
 
 
-<meta name="date" content="2021-12-13" />
+<meta name="date" content="2021-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,13 +167,14 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">ATSPM Data Analysis</a></li>
+<li><a href="./">COVID-19 & Traffic Volume</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Question</a></li>
 <li class="chapter" data-level="2" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>2</b> Methods</a></li>
 <li class="chapter" data-level="3" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>3</b> Findings</a></li>
-<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="4" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i><b>4</b> Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -186,7 +187,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">ATSPM Data Analysis</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">The Effect of COVID-19 on Utah Traffic Volumes</a>
           </h1>
         </div>
 
@@ -197,7 +198,7 @@ div.csl-indent {
 <div id="methods" class="section level1" number="2">
 <h1><span class="header-section-number"> 2</span> Methods</h1>
 <p>UDOT provided volume data for many signals, but for the purposes of this research, significantly fewer signals were actually analyzed. Data was collected from traffic volume detectors in Provo, Orem, and Cottonwood Heights, Utah and then processed through UDOT’s Automated Traffic Signal Performance Measures (ATSPM) system. Data was provided for downtown Provo, Orem State Street, University Avenue, Orem 800 N, and Fort Union Boulevard in Cottonwood Heights for the years 2017-2020, but many of the data were plagued by detector issues. Common issues ranged from shifting of the data up or down considerably and then shifting back after a period of time, missing data, or lack of data in general. Only four signals from Fort Union Blvd and three signals from Orem 800 N were ultimately deemed as complete and consistent enough to be used in the analysis.</p>
-<p>A general linear regression and four fixed effect models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. Fixed effects models were created for day of the week, month, whether or not it was during the COVID-19 pandemic, and individual signals. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.</p>
+<p>Three models were created to evaluate the effect of COVID-19 on volume in the aforementioned corridors. The first was a base model which controlled for variation in volumes at each signal. The second was our base model, but additionally controlling for the effects of COVID-19. The third was the second model, but also controlled for day of the week and month. To divide the Pre COVID-19 time period from the COVID-19 time period, a separation date was chosen. In Utah, on March 12, 2020, Governor Cox announced that gatherings over 100 people should be canceled, as well as many of the universities in the state making the formal announcement that they would transition to online school for the remainder of the semester. These announcements were one of the first events of the pandemic that directly affected the lives of the public in Utah, hence it being chosen as the separation date.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="methods.html#cb1-1" aria-hidden="true" tabindex="-1"></a>Volume_reg <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">&quot;data/Volume_reg.rds&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="methods.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="methods.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
