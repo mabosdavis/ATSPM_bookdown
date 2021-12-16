@@ -50,7 +50,7 @@ Three models were created to evaluate the effect of COVID-19 on volume in the af
 Volume_reg <- read_rds("data/Volume_reg.rds")
 ```
 
-```{r datasummary, fig.cap="Traffic volumes at State St and 800 N in Orem, UT before and during the COVID-19 pandemic."}
+```{r datasummary, fig.cap="Traffic volumes at Fort Union Blvd and 1300 E in Cottonwood Heights, UT before and during the COVID-19 pandemic."}
 library(tidyverse)
 
 #Graph Signal Specific Volumes
