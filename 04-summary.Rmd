@@ -11,10 +11,7 @@ library(kableExtra)
 options(tinytex.verbose = TRUE)
 ```
 
-Base controls for Signals, COVID is base, but also controlling for COVID. Controls is Base controlling for everything, including day of week and month. R-squared value goes up, beta for COVID becomes more pronounced, quantify how much of an effect COVID had.
-
-
-
+Table \@ref(tab:modeltab) displays the statistical findings of the effects of various variables on traffic volumes. For reference, the “Intercept” statistic was used to represent the volume at each signal per phase in vehicles per hour (vph). The “Base” model was built such to control for individual signal differences and curiously, signals on the same corridor, denoted by the first number of their signal id, were significantly different in their traffic volumes despite being geographically near each other. Inherently, signals will have different volumes, but the finding that each was significantly different from each other was surprising. The “COVID” model showed that after controlling for individual signals, COVID-19 resulted in volumes decreasing by an average of 60 vph. After de-seasonalizing the data in the “Controls” model by controlling for month and day of week, the effect of COVID-19 was shown to actually increase additionally to 65 vph. This show that the COVID-19 pandemic resulted in approximately an 11% reduction in vehicle throughput per signal, on average. The R-squared values increase from 0.515 in the “Base” model to 0.524 in the “Controls” model, supporting the reduction in error and a closer fit model with the “Control” model.
 
 ```{r general}
 # Read in Volume dataset
@@ -32,6 +29,7 @@ modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_contro
              estimate = "{estimate}{stars}", statistic = NULL, 
              output = 'kableExtra',
              gof_omit = 'IC|Log|Adj',
+             title = "Traffic Volume Estimates",
              coef_map = c(
                "(Intercept)" = "Intercept",
                "factor(SignalId)4090" = "4090",
@@ -54,14 +52,19 @@ modelsummary(list("Base" = base, "COVID" = covid_Base, "Controls" = covid_contro
                "factor(month)12" = "December",
                "factor(day)4" = "Wednesday",
                "factor(day)5" = "Thursday"),
-             title = "Traffic Volume Estimates",
              notes = c("t-statistics in parentheses, * p < 0.1, ** p < 0.05, *** p < 0.01",
                        "Coefficients represent change in traffic volumes per hour.")) %>%
   kable_styling() %>%
   row_spec(8, color = 'red') %>%
-  group_rows("Signal", 2, 7) %>%
-  group_rows("COVID-19", 8, 8) %>%
-  group_rows("Month", 9, 19) %>%
-  group_rows("Day", 20, 21)
+  pack_rows("Signal", 2, 7) %>%
+  pack_rows("COVID-19", 8, 8) %>%
+  pack_rows("Month", 9, 19) %>%
+  pack_rows("Day", 20, 21)
 ```
 
+Like with any research, there were significant limitations to the data and analyses. Through the data
+cleaning process, it became very clear that many of the data provided were not complete or contained
+detector errors, leaving most of the data unusable. From 52 signals originally with data, only 7 were used
+in this analysis. Even with the most accurate data available, further detector error or unknown errors could
+be present. Other factors such as weather, holidays and major events, school openings, weather, and road
+conditions were not controlled for.
